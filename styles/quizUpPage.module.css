@@ -1,0 +1,94 @@
+.kokuban {
+    position: relative;
+    margin: 2em auto;
+    padding: 1em;
+    background: #006633; /* ボックス背景色 */
+    color: #fff; /* 文章色 */
+    border: 8px solid #b2771f; /* 枠線 */
+    border-radius: 3px; /* 角の丸み */
+    box-shadow: 0 0 5px #333, 0 0 5px #555 inset;
+}
+.kokuban::before,
+.kokuban::after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+}
+.kokuban::before {
+    width: 20px;
+    right: 10px;
+    border: solid 3px #ffff00; /*チョーク（黄色）*/
+    border-radius: 3px 2px 0 2px;
+}
+.kokuban::after {
+    width: 15px;
+    right: 45px;
+    border: solid 3px #fff; /*チョーク（白） */
+    border-radius: 8px 5px 2px 5px;
+}
+
+.item{
+    /*position: absolute;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%);*/
+    width: 500px;
+}
+
+.items{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+
+.title{
+    margin: 10px;
+    text-align: center;
+}
+
+.inputForm{
+    width: 500px;
+    height: 50px;
+    font-size: 30px;
+    border-radius: 10px;
+    margin: 10px;
+
+
+}
+
+.textareaForm{
+    font-size: 20px;
+    width: 500px;
+    height: 120px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.parentContainer {
+    position: relative;
+    height: 110vh; /* 画面の高さいっぱいに広がるように */
+}
+
+
+.button{
+    width: 150px;
+    height: 60px;
+    font-size: 30px;
+    border-radius: 15px;
+    margin: 20px 60px;
+}
+
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.labelName{
+    margin-top: 10px;
+    font-size:20px;
+}
