@@ -9,6 +9,7 @@ const firestore = getFirestore(app)
 
 const AddQuiz = () =>{
     const quizTypeData = {
+        title:"",
         question:"",
         secAnS:"",
         secF:"",
@@ -29,7 +30,9 @@ const AddQuiz = () =>{
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
+        setQuizData({...quizData, title: e.target.value})
     };
+
 
     const addDocumentToFirestore = async () => {
         quizTitle = inputValue
@@ -43,6 +46,10 @@ const AddQuiz = () =>{
         }
         setInputValue('')
     };
+    const onTitle = (e) =>{
+        handleInputChange();
+        setQuizData({...quizData, title: e.target.value})
+    }
 
     return (
             <div className={styles.kokuban}>

@@ -1,13 +1,38 @@
-import {collection, doc, deleteDoc, getFirestore} from "firebase/firestore"
-import React, {useState} from "react";
+import {collection, doc, deleteDoc, getFirestore,getDocs} from "firebase/firestore"
+import React, {useEffect, useState} from "react";
+import Modal from "react-modal";
 import app from "../FirebaseConfig";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+
 
 const firestore = getFirestore(app)
 
+Modal.setAppElement('#__next');
 
 const DeleteDataPage = () => {
     const [quizTitle, setQuizTitle] = useState('');
+    const [quizList, setQuizList] = useState([]);
+    const [isModalOpen, setModalOpen] = useState(false);
 
+    //ページの表示
+    const fetchData = async () => {
+        const quizCollection = collection(firestore, 'quiz');
+        const querySnapshot = await getDocs(quizCollection);
+        const quizData = [];
+        querySnapshot.forEach((doc) => {
+            quizData.push({ id: doc.id, ...doc.data() });
+        });
+        setQuizList(quizData);
+    };
+
+    //一覧表示
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+
+    //消去機能
     const handleDelete = async () => {
         try {
             // コレクション内のドキュメントを削除
@@ -18,18 +43,54 @@ const DeleteDataPage = () => {
             console.log("incomplete")
         }
         setQuizTitle("")
+        setModalOpen(false)
+        fetchData();
     };
+
+    const completionModal = ({ isOpen, onClose}) =>{
+        return (
+            <Modal isOpen={isOpen} onRequestClose={onClose}>
+                消去しました
+                <button onClick={onClose}>閉じる</button>
+            </Modal>
+        );
+    }
+
+
+    const MyModal = ({ isOpen, onClose, children }) => {
+        return (
+            <Modal isOpen={isOpen} onRequestClose={onClose}>
+                {children}
+                <button onClick={onClose}>閉じる</button>
+            </Modal>
+        );
+    };
+
+    const onModal = (selectTitle) =>{
+        setQuizTitle(selectTitle);
+        setModalOpen(true)
+    }
 
     return (
         <div>
             <h1>Delete Quiz Page</h1>
-            <div>
-                <label>
-                    Quiz ID:
-                    <input type="text" value={quizTitle} onChange={(e) => setQuizTitle(e.target.value)} />
-                </label>
-            </div>
-            <button onClick={handleDelete}>消去</button>
+            <ul className="list-group">
+                {quizList.map((quiz) =>
+                    <div key={quiz.id}>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                            {quiz.title}
+                            <FontAwesomeIcon
+                                icon={faTrashCan}
+                                onClick={(e) => onModal(quiz.title)}
+                            />
+                            <MyModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+                                <h2>{quizTitle}を消去しますがよろしいですか？</h2>
+                                <button onClick={handleDelete}> 消去</button>
+                            </MyModal>
+                        </li>
+                    </div>
+                )}
+            </ul>
         </div>
     );
 };
