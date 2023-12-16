@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import app from "../FirebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import styles from '../styles/quizDelete.module.css'
 
 
 const firestore = getFirestore(app)
@@ -72,26 +73,31 @@ const DeleteDataPage = () => {
     }
 
     return (
-        <div>
-            <h1>Delete Quiz Page</h1>
-            <ul className="list-group">
-                {quizList.map((quiz) =>
-                    <div key={quiz.id}>
-                        <li className="list-group-item d-flex justify-content-between align-items-center">
-                            {quiz.title}
-                            <FontAwesomeIcon
-                                icon={faTrashCan}
-                                onClick={(e) => onModal(quiz.title)}
-                            />
-                            <MyModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                                <h2>{quizTitle}を消去しますがよろしいですか？</h2>
-                                <button onClick={handleDelete}> 消去</button>
-                            </MyModal>
-                        </li>
-                    </div>
-                )}
-            </ul>
-        </div>
+                <div className={styles.parentContainer}>
+                    <h1 className={styles.title}>クイズの消去</h1>
+                    <ul className="list-group"
+                        style={{
+                            position:"absolute",
+                            left: "50%",
+                            transform: "translate(-50%)"
+                    }}>
+                        {quizList.map((quiz) =>
+                            <div key={quiz.id} className={styles.item}>
+                                <li className="list-group-item d-flex justify-content-between align-items-center">
+                                    {quiz.title}
+                                    <FontAwesomeIcon
+                                        icon={faTrashCan}
+                                        onClick={(e) => onModal(quiz.title)}
+                                    />
+                                    <MyModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+                                        <h2>{quizTitle}を消去しますがよろしいですか？</h2>
+                                        <button onClick={handleDelete}> 消去</button>
+                                    </MyModal>
+                                </li>
+                            </div>
+                        )}
+                    </ul>
+                </div>
     );
 };
 

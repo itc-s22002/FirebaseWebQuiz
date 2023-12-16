@@ -28,9 +28,6 @@
 }
 
 .item{
-    /*position: absolute;*/
-    /*left: 50%;*/
-    /*transform: translate(-50%);*/
     width: 500px;
 }
 
@@ -66,10 +63,10 @@
 
 .parentContainer {
     position: relative;
-    height: 110vh; /* 画面の高さいっぱいに広がるように */
+    height: 100vh;
 }
 
-
+/*button*/
 .button{
     width: 150px;
     height: 60px;

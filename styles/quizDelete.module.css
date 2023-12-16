@@ -1,0 +1,25 @@
+.item{
+    width: 500px;
+    margin: 10px;
+}
+
+.items{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: 10px;
+
+}
+
+
+.title{
+    margin: 20px;
+    text-align: center;
+
+}
+
+
+.parentContainer {
+    position: relative;
+    height: 100vh;
+}
