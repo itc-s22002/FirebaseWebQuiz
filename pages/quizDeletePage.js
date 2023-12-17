@@ -5,6 +5,7 @@ import app from "../FirebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/quizDelete.module.css'
+import {useRouter} from "next/router";
 
 
 const firestore = getFirestore(app)
@@ -15,6 +16,11 @@ const DeleteDataPage = () => {
     const [quizTitle, setQuizTitle] = useState('');
     const [quizList, setQuizList] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
+    const router = useRouter();
+
+    const routers = () => {
+        router.push("/startPage").then(r => true)
+    }
 
     //ページの表示
     const fetchData = async () => {
@@ -73,31 +79,39 @@ const DeleteDataPage = () => {
     }
 
     return (
-                <div className={styles.parentContainer}>
-                    <h1 className={styles.title}>クイズの消去</h1>
-                    <ul className="list-group"
-                        style={{
-                            position:"absolute",
-                            left: "50%",
-                            transform: "translate(-50%)"
+        <div className={styles.parentContainer}>
+            <h1 className={styles.title}>クイズの消去</h1>
+                <ul className="list-group"
+                    style={{
+                        position: "absolute",
+                        left: "50%",
+                        transform: "translate(-50%)"
                     }}>
-                        {quizList.map((quiz) =>
-                            <div key={quiz.id} className={styles.item}>
-                                <li className="list-group-item d-flex justify-content-between align-items-center">
-                                    {quiz.title}
-                                    <FontAwesomeIcon
-                                        icon={faTrashCan}
-                                        onClick={(e) => onModal(quiz.title)}
-                                    />
-                                    <MyModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                                        <h2>{quizTitle}を消去しますがよろしいですか？</h2>
-                                        <button onClick={handleDelete}> 消去</button>
-                                    </MyModal>
-                                </li>
-                            </div>
-                        )}
-                    </ul>
-                </div>
+                    {quizList.map((quiz) =>
+                        <div key={quiz.id} className={styles.item}>
+                            <li className="list-group-item d-flex justify-content-between align-items-center">
+                                {quiz.title}
+                                <FontAwesomeIcon
+                                    icon={faTrashCan}
+                                    onClick={(e) => onModal(quiz.title)}
+                                />
+                                <MyModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+                                    <h2>{quizTitle}を消去しますがよろしいですか？</h2>
+                                    <button onClick={handleDelete}> 消去</button>
+                                </MyModal>
+                            </li>
+                        </div>
+                    )}
+                    <div>
+                        <button
+                            onClick={routers}
+                            className={styles.button}
+                        >
+                            完了
+                        </button>
+                    </div>
+                </ul>
+        </div>
     );
 };
 
