@@ -23,3 +23,17 @@
     position: relative;
     height: 100vh;
 }
+
+.button{
+    width: 150px;
+    height: 60px;
+    font-size: 30px;
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-left: 360px;
+    margin-bottom: 20px;
+
+}
+
+
+

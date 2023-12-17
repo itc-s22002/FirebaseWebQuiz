@@ -15,7 +15,7 @@ const selectMode = () => {
     }
 
     const routersStartPage = () => {
-        router.push("/")
+        router.push("/startPage").then(r => true)
     }
 
     return(
@@ -31,7 +31,7 @@ const selectMode = () => {
                     <button onClick={routersDeletePage} className={styles.button}>問題の削除</button>
                 </div>
                 <div>
-                    <button className={styles.button}>スタートに戻る</button>
+                    <button onClick={routersStartPage} className={styles.button}>スタートに戻る</button>
                 </div>
             </div>
         </div>

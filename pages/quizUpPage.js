@@ -23,7 +23,7 @@ const AddQuiz = () => {
     let quizTitle = ""
 
     const routers = () => {
-        router.push("/")
+        router.push("/startPage").then(r => true)
     }
 
 
