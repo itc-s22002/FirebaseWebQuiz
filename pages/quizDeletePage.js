@@ -54,26 +54,25 @@ const DeleteDataPage = () => {
         fetchData();
     };
 
-    const completionModal = ({ isOpen, onClose}) =>{
-        return (
-            <Modal isOpen={isOpen} onRequestClose={onClose}>
-                消去しました
-                <button onClick={onClose}>閉じる</button>
-            </Modal>
-        );
-    }
-
 
     const MyModal = ({ isOpen, onClose, children }) => {
         return (
-            <Modal isOpen={isOpen} onRequestClose={onClose}>
+            <Modal
+                isOpen={isOpen}
+                onRequestClose={onClose}
+                contentLabel="My Dialog"
+            >
                 {children}
-                <button onClick={onClose}>閉じる</button>
+                <h2 style={{color: "black"}}>消去しますがよろしいですか？</h2>
+                <div>
+                    <button onClick={handleDelete}> 消去</button>
+                    <button onClick={onClose}>閉じる</button>
+                </div>
             </Modal>
         );
     };
 
-    const onModal = (selectTitle) =>{
+    const onModal = (selectTitle) => {
         setQuizTitle(selectTitle);
         setModalOpen(true)
     }
@@ -95,10 +94,7 @@ const DeleteDataPage = () => {
                                     icon={faTrashCan}
                                     onClick={(e) => onModal(quiz.title)}
                                 />
-                                <MyModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                                    <h2>{quizTitle}を消去しますがよろしいですか？</h2>
-                                    <button onClick={handleDelete}> 消去</button>
-                                </MyModal>
+                                    <MyModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}/>
                             </li>
                         </div>
                     )}
