@@ -25,10 +25,12 @@ const shuffleArray = (array) => {
 const QuestionsPage = () => {
     const [randomData, setRandomData] = useState([]);
     const router = useRouter();
-    const [displayText, setDisplayText] = useState('');
     const [count, setCount] = useState(0)
     const [score, setScore] = useState(0)
+    const [displayText, setDisplayText] = useState("");
     let choice = []
+    const [buttonName, setButtonName] = useState("Start")
+    const [checkStart, setCheckStart] = useState(true);
 
 
     useEffect(() => {
@@ -48,59 +50,81 @@ const QuestionsPage = () => {
         fetchData();
     }, []);
 
-    const checkAnswer = (select) =>{
+    const checkAnswer = (select) => {
         let ans = ""
-        if(randomData[count].secAnS === select){
-            setScore(score + 1)
+        setCheckStart(true)
+        if (randomData[count].secAnS === select) {
+            setScore(score + 10)
             ans = "正解"
-        }else {
+        } else {
             ans = "不正解"
         }
         setDisplayText(
             <div>
                 <h1>{ans}</h1>
+                <p>解説:{randomData[count].explanation}</p>
             </div>
         )
     }
 
     const Questions = () => {
         // console.log(randomData[count])
-        setCount(count + 1)
 
-        if(count === 10){
+        setCount(count + 1)
+        setCheckStart(false)
+        setButtonName("next")
+
+        if (count === 10) {
             console.log("not data")
-            router.push("/startPage").then(r => true)
-        }else {
-            choice = (shuffleArray([randomData[count].secAnS,randomData[count].secS,randomData[count].secT,randomData[count].secF]));
+            //router.push("/startPage").then(r => true)
+            setDisplayText(
+                <div>
+                    <h1>{score}点</h1>
+                    <button onClick={() => router.push("/startPage").then(r => true)}> 完了</button>
+                </div>
+            )
+        } else {
+            choice = (shuffleArray([randomData[count].secAnS, randomData[count].secS, randomData[count].secT, randomData[count].secF]));
             setDisplayText(
                 <div>
                     <h1 className={styles.title}>{randomData[count].title}</h1>
-                    <h2>{score}</h2>
-                    <h2 className={styles.questions}>問{count}:{randomData[count].question}</h2>
+                    <h2>score:{score}</h2>
+                    <h2 className={styles.questions}>問{count + 1}:{randomData[count].question}</h2>
                     <div className={styles.buttons}>
                         <div>
-                            <button onClick={() => checkAnswer(choice[0])} className={styles.button}>{choice[0]}</button>
-                            <button onClick={() => checkAnswer(choice[1])} className={styles.button}>{choice[1]}</button>
+                            <button onClick={() => checkAnswer(choice[0])}
+                                    className={styles.button}>{choice[0]}</button>
+                            <button onClick={() => checkAnswer(choice[1])}
+                                    className={styles.button}>{choice[1]}</button>
 
                         </div>
                         <div>
-                            <button onClick={() => checkAnswer(choice[2])} className={styles.button}>{choice[2]}</button>
-                            <button onClick={() => checkAnswer(choice[3])} className={styles.button}>{choice[3]}</button>
+                            <button onClick={() => checkAnswer(choice[2])}
+                                    className={styles.button}>{choice[2]}</button>
+                            <button onClick={() => checkAnswer(choice[3])}
+                                    className={styles.button}>{choice[3]}</button>
                         </div>
                     </div>
+                    <button onClick={() => checkAnswer(false)}>
+                        スキップ
+                    </button>
                 </div>
             )
 
         }
     }
 
+
     return (
         <div>
-            <h1>Questions</h1>
-            <button onClick={Questions}>
-                A
-            </button>
             <div>{displayText}</div>
+            {checkStart ? (
+                <button onClick={Questions}>
+                    {buttonName}
+                </button>
+            ):(
+                <div></div>
+            )}
         </div>
     )
 }
