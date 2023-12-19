@@ -12,11 +12,22 @@ const getRandomItems = (array, count) => {
     return shuffled.slice(0, count);
 };
 
+const shuffleArray = (array) => {
+    // 配列をシャッフルする関数
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+}
+
 const QuestionsPage = () => {
     const [randomData, setRandomData] = useState([]);
     const router = useRouter();
     const [displayText, setDisplayText] = useState('');
     const [count, setCount] = useState(0)
+    let choice = []
 
 
     useEffect(() => {
@@ -37,40 +48,31 @@ const QuestionsPage = () => {
     }, []);
 
     const Questions = () => {
-        console.log(randomData[count])
+        // console.log(randomData[count])
         setCount(count + 1)
+
         if(count === 10){
             console.log("not data")
             router.push("/startPage").then(r => true)
         }else {
+            choice = (shuffleArray([randomData[count].secAnS,randomData[count].secS,randomData[count].secT,randomData[count].secF]));
             setDisplayText(
-                // <ul>
-                //     <li>{randomData[count].title}</li>
-                //     <li>{randomData[count].question}</li>
-                //     <li>{randomData[count].secAnS}</li>
-                //     <li>{randomData[count].secS}</li>
-                //     <li>{randomData[count].secT}</li>
-                //     <li>{randomData[count].explanation}</li>
-                // </ul>
                 <div>
                     <h1 className={styles.title}>{randomData[count].title}</h1>
-                    <h2 className={styles.questions}>問{count + 1}:{randomData[count].question}</h2>
+                    <h2 className={styles.questions}>問{count}:{randomData[count].question}</h2>
                     <div className={styles.buttons}>
                         <div>
-                            <button className={styles.button}>{randomData[count].secAnS}</button>
-                            <button className={styles.button}>{randomData[count].secS}</button>
+                            <button className={styles.button}>{choice[0]}</button>
+                            <button className={styles.button}>{choice[1]}</button>
 
                         </div>
                         <div>
-                            <button className={styles.button}>{randomData[count].secT}</button>
-                            <button className={styles.button}>{randomData[count].secF}</button>
+                            <button className={styles.button}>{choice[2]}</button>
+                            <button className={styles.button}>{choice[3]}</button>
                         </div>
                     </div>
                 </div>
             )
-
-
-            console.log(randomData[count].title)
 
         }
     }
