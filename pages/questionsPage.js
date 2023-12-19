@@ -14,6 +14,8 @@ const getRandomItems = (array, count) => {
 const HomePage = () => {
     const [randomData, setRandomData] = useState([]);
     const router = useRouter();
+    const [displayText, setDisplayText] = useState('');
+    const [count, setCount] = useState(0)
 
 
     useEffect(() => {
@@ -22,8 +24,9 @@ const HomePage = () => {
                 const collectionRef = collection(firestore, 'quiz');
                 const snapshot = await getDocs(collectionRef);
                 const data = snapshot.docs.map((doc) => doc.data());
-                const randomItems = getRandomItems(data, 3);
+                const randomItems = getRandomItems(data, 10);
                 setRandomData(randomItems);
+                //console.log(randomItems[0].question)
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -31,14 +34,43 @@ const HomePage = () => {
 
         fetchData();
     }, []);
+
+    const routersCreatePage = () => {
+        console.log(randomData[count])
+        setCount(count + 1)
+        if(count === 10){
+            console.log("not data")
+            router.push("/startPage").then(r => true)
+        }else {
+            setDisplayText(
+                <ul>
+                    <li>{randomData[count].title}</li>
+                    <li>{randomData[count].question}</li>
+                    <li>{randomData[count].secAnS}</li>
+                    <li>{randomData[count].secS}</li>
+                    <li>{randomData[count].secT}</li>
+                    <li>{randomData[count].explanation}</li>
+                </ul>
+            )
+
+
+            console.log(randomData[count].title)
+
+        }
+    }
+
     return (
         <div>
-            <h1>Random Data from Firebase</h1>
-            <ul>
-                {randomData.map((item, index) => (
-                    <li key={index}>{item.title}</li>
-                ))}
-            </ul>
+            <h1>Questions</h1>
+            {/*<button onClick={QuestPage()}>*/}
+                {/*{randomData.map((item, index) => (*/}
+                {/*))}*/}
+            {/*</button>*/}
+
+            <button onClick={routersCreatePage}>
+                A
+            </button>
+            <div>{displayText}</div>
         </div>
     )
 }
