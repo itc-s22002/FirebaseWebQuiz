@@ -61,8 +61,9 @@ const QuestionsPage = () => {
         }
         setDisplayText(
             <div>
-                <h1>{ans}</h1>
-                <p>解説:{randomData[count].explanation}</p>
+                <h1 className={styles.title}>{ans}</h1>
+                <h2 className={styles.questions}>問{count + 1}解説:{randomData[count].explanation}</h2>
+                <h2 className={styles.score}>score:{score}点</h2>
             </div>
         )
     }
@@ -78,9 +79,11 @@ const QuestionsPage = () => {
             console.log("not data")
             //router.push("/startPage").then(r => true)
             setDisplayText(
-                <div>
-                    <h1>{score}点</h1>
-                    <button onClick={() => router.push("/startPage").then(r => true)}> 完了</button>
+                <div className={styles.buttons}>
+                    <h1 className={styles.title}>{score}点</h1>
+                    <button className={styles.button} onClick={() => router.push("/startPage").then(r => true)}>
+                        完了
+                    </button>
                 </div>
             )
         } else {
@@ -88,8 +91,8 @@ const QuestionsPage = () => {
             setDisplayText(
                 <div>
                     <h1 className={styles.title}>{randomData[count].title}</h1>
-                    <h2>score:{score}</h2>
                     <h2 className={styles.questions}>問{count + 1}:{randomData[count].question}</h2>
+                    <h2 className={styles.score}>score:{score}点</h2>
                     <div className={styles.buttons}>
                         <div>
                             <button onClick={() => checkAnswer(choice[0])}
@@ -104,10 +107,10 @@ const QuestionsPage = () => {
                             <button onClick={() => checkAnswer(choice[3])}
                                     className={styles.button}>{choice[3]}</button>
                         </div>
+                        <button onClick={() => checkAnswer(false)} className={styles.button}>
+                            スキップ
+                        </button>
                     </div>
-                    <button onClick={() => checkAnswer(false)}>
-                        スキップ
-                    </button>
                 </div>
             )
 
@@ -119,9 +122,11 @@ const QuestionsPage = () => {
         <div>
             <div>{displayText}</div>
             {checkStart ? (
-                <button onClick={Questions}>
-                    {buttonName}
-                </button>
+                <div className={styles.buttons}>
+                    <button onClick={Questions} className={styles.button}>
+                        {buttonName}
+                    </button>
+                </div>
             ):(
                 <div></div>
             )}
