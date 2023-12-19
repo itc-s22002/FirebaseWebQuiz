@@ -2,6 +2,7 @@ import app from '../FirebaseConfig'
 import {getFirestore, getDoc, doc, collection, getDocs} from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import {useRouter} from 'next/router';
+import styles from "@/styles/question.module.css";
 
 
 const firestore = getFirestore(app)
@@ -11,7 +12,7 @@ const getRandomItems = (array, count) => {
     return shuffled.slice(0, count);
 };
 
-const HomePage = () => {
+const QuestionsPage = () => {
     const [randomData, setRandomData] = useState([]);
     const router = useRouter();
     const [displayText, setDisplayText] = useState('');
@@ -35,7 +36,7 @@ const HomePage = () => {
         fetchData();
     }, []);
 
-    const routersCreatePage = () => {
+    const Questions = () => {
         console.log(randomData[count])
         setCount(count + 1)
         if(count === 10){
@@ -43,14 +44,29 @@ const HomePage = () => {
             router.push("/startPage").then(r => true)
         }else {
             setDisplayText(
-                <ul>
-                    <li>{randomData[count].title}</li>
-                    <li>{randomData[count].question}</li>
-                    <li>{randomData[count].secAnS}</li>
-                    <li>{randomData[count].secS}</li>
-                    <li>{randomData[count].secT}</li>
-                    <li>{randomData[count].explanation}</li>
-                </ul>
+                // <ul>
+                //     <li>{randomData[count].title}</li>
+                //     <li>{randomData[count].question}</li>
+                //     <li>{randomData[count].secAnS}</li>
+                //     <li>{randomData[count].secS}</li>
+                //     <li>{randomData[count].secT}</li>
+                //     <li>{randomData[count].explanation}</li>
+                // </ul>
+                <div>
+                    <h1 className={styles.title}>{randomData[count].title}</h1>
+                    <h2 className={styles.questions}>問{count + 1}:{randomData[count].question}</h2>
+                    <div className={styles.buttons}>
+                        <div>
+                            <button className={styles.button}>{randomData[count].secAnS}</button>
+                            <button className={styles.button}>{randomData[count].secS}</button>
+
+                        </div>
+                        <div>
+                            <button className={styles.button}>{randomData[count].secT}</button>
+                            <button className={styles.button}>{randomData[count].secF}</button>
+                        </div>
+                    </div>
+                </div>
             )
 
 
@@ -62,12 +78,7 @@ const HomePage = () => {
     return (
         <div>
             <h1>Questions</h1>
-            {/*<button onClick={QuestPage()}>*/}
-                {/*{randomData.map((item, index) => (*/}
-                {/*))}*/}
-            {/*</button>*/}
-
-            <button onClick={routersCreatePage}>
+            <button onClick={Questions}>
                 A
             </button>
             <div>{displayText}</div>
@@ -75,4 +86,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage;
+export default QuestionsPage;

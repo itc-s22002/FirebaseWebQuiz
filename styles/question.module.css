@@ -1,0 +1,30 @@
+.button{
+    width: 300px;
+    height: 60px;
+    font-size: 30px;
+    border-radius: 15px;
+    margin: 20px 60px;
+    align-items: center;
+
+}
+
+
+.buttons{
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+
+}
+
+.questions {
+    margin: 20px;
+}
+
+.title{
+    margin: 20px;
+    text-align: center;
+
+}
