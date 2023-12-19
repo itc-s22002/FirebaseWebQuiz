@@ -27,6 +27,7 @@ const QuestionsPage = () => {
     const router = useRouter();
     const [displayText, setDisplayText] = useState('');
     const [count, setCount] = useState(0)
+    const [score, setScore] = useState(0)
     let choice = []
 
 
@@ -47,6 +48,21 @@ const QuestionsPage = () => {
         fetchData();
     }, []);
 
+    const checkAnswer = (select) =>{
+        let ans = ""
+        if(randomData[count].secAnS === select){
+            setScore(score + 1)
+            ans = "正解"
+        }else {
+            ans = "不正解"
+        }
+        setDisplayText(
+            <div>
+                <h1>{ans}</h1>
+            </div>
+        )
+    }
+
     const Questions = () => {
         // console.log(randomData[count])
         setCount(count + 1)
@@ -59,16 +75,17 @@ const QuestionsPage = () => {
             setDisplayText(
                 <div>
                     <h1 className={styles.title}>{randomData[count].title}</h1>
+                    <h2>{score}</h2>
                     <h2 className={styles.questions}>問{count}:{randomData[count].question}</h2>
                     <div className={styles.buttons}>
                         <div>
-                            <button className={styles.button}>{choice[0]}</button>
-                            <button className={styles.button}>{choice[1]}</button>
+                            <button onClick={() => checkAnswer(choice[0])} className={styles.button}>{choice[0]}</button>
+                            <button onClick={() => checkAnswer(choice[1])} className={styles.button}>{choice[1]}</button>
 
                         </div>
                         <div>
-                            <button className={styles.button}>{choice[2]}</button>
-                            <button className={styles.button}>{choice[3]}</button>
+                            <button onClick={() => checkAnswer(choice[2])} className={styles.button}>{choice[2]}</button>
+                            <button onClick={() => checkAnswer(choice[3])} className={styles.button}>{choice[3]}</button>
                         </div>
                     </div>
                 </div>
