@@ -1,40 +1,27 @@
 import {collection, doc, deleteDoc, getFirestore,getDocs} from "firebase/firestore"
 import React, {useEffect, useState} from "react";
-import Modal from "react-modal";
 import app from "../FirebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/quizDelete.module.css'
 import {useRouter} from "next/router";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
+import { Modal, Button } from 'react-bootstrap';
+
+
+
 
 
 const firestore = getFirestore(app)
 const auth = getAuth(app)
 
-
-Modal.setAppElement('#__next');
-
 const DeleteDataPage = () => {
     const [quizTitle, setQuizTitle] = useState('');
     const [quizList, setQuizList] = useState([]);
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const router = useRouter();
-
     const [user, setUser] = useState(null);
 
-    useEffect(() => {
-
-        // ログイン状態が変更されたときに呼ばれるコールバック
-        const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-            if (authUser) {
-                setUser(authUser);
-            } else {
-                setUser(null);
-            }
-        });
-        return () => unsubscribe();
-    }, []);
 
     const routers = () => {
         router.push("/startPage").then(r => true)
@@ -51,11 +38,17 @@ const DeleteDataPage = () => {
         setQuizList(quizData);
     };
 
-    //一覧表示
     useEffect(() => {
-        fetchData();
+        fetchData()
+        const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+            if (authUser) {
+                setUser(authUser);
+            } else {
+                setUser(null);
+            }
+        });
+        return () => unsubscribe();
     }, []);
-
 
     //消去機能
     const handleDelete = async () => {
@@ -68,27 +61,34 @@ const DeleteDataPage = () => {
             console.log("incomplete")
         }
         setQuizTitle("")
-        setModalOpen(false)
         fetchData();
+        setShowModal(false)
+
     };
 
-
-    const MyModal = ({ isOpen, onClose, children }) => {
+    const SmallModal = () => {
         return (
-            <Modal
-                isOpen={isOpen}
-                onRequestClose={onClose}
-                contentLabel="My Dialog"
-            >
-                {children}
-                <h2 style={{color: "black"}}>消去しますがよろしいですか？</h2>
-                <div>
-                    <button onClick={handleDelete}> 消去</button>
-                    <button onClick={onClose}>閉じる</button>
-                </div>
+            <Modal show={showModal} onHide={handleCloseModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title></Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p style={{color:"black"}}>削除しますか。</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleDelete}>
+                        削除
+                    </Button>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        閉じる
+                    </Button>
+                </Modal.Footer>
             </Modal>
+
         );
     };
+
+
 
     const checkUid = (quiz) =>{
         if(quiz.userId === user.uid) {
@@ -100,7 +100,7 @@ const DeleteDataPage = () => {
                             icon={faTrashCan}
                             onClick={(e) => onModal(quiz.title)}
                         />
-                        <MyModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}/>
+                        <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
                     </li>
                 </div>
             )
@@ -113,8 +113,13 @@ const DeleteDataPage = () => {
 
     const onModal = (selectTitle) => {
         setQuizTitle(selectTitle);
-        setModalOpen(true)
+        setShowModal(true)
     }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
 
     return (
         <div className={styles.parentContainer}>
@@ -126,15 +131,15 @@ const DeleteDataPage = () => {
                     transform: "translate(-50%)"
                 }}>
                 {quizList.map((quiz) => checkUid(quiz))}
-                    <div>
-                        <button
-                            onClick={routers}
-                            className={styles.button}
-                        >
-                            完了
-                        </button>
-                    </div>
-                </ul>
+                <div>
+                    <button
+                        onClick={routers}
+                        className={styles.button}
+                    >
+                        完了
+                    </button>
+                </div>
+            </ul>
         </div>
     );
 };
