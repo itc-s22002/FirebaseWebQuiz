@@ -56,19 +56,31 @@ const AddQuiz = () => {
 
 
         const addDocumentToFirestore = async () => {
-            quizTitle = inputValue
-            try {
-                const docRef = doc(firestore, "quiz", `${quizTitle}`);
-                await setDoc(docRef, quizData)
-                console.log('Document written with Title: ', docRef.id);
-                if(user){
-                    console.log('製作者',user.email)
+            if(
+                quizData.title !== "" &&
+                quizData.question !== "" &&
+                quizData.secAnS !== "" &&
+                quizData.secF !== "" &&
+                quizData.secS !== "" &&
+                quizData.secT !== "" &&
+                quizData.explanation !== ""
+            ) {
+                quizTitle = inputValue
+                try {
+                    const docRef = doc(firestore, "quiz", `${quizTitle}`);
+                    await setDoc(docRef, quizData)
+                    console.log('Document written with Title: ', docRef.id);
+                    if (user) {
+                        console.log('製作者', user.email)
+                    }
+                    setQuizData(quizTypeData);
+                } catch (error) {
+                    console.error('Error adding document: ', error);
                 }
-                setQuizData(quizTypeData);
-            } catch (error) {
-                console.error('Error adding document: ', error);
+                setInputValue('')
+            }else {
+                console.log("全部入ってねーよバーカ")
             }
-            setInputValue('')
         };
         if (user) {
             return (

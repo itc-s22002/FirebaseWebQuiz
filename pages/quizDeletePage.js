@@ -1,22 +1,27 @@
 import {collection, doc, deleteDoc, getFirestore,getDocs} from "firebase/firestore"
 import React, {useEffect, useState} from "react";
-import Modal from "react-modal";
 import app from "../FirebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/quizDelete.module.css'
 import {useRouter} from "next/router";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import { Modal, Button } from 'react-bootstrap';
+
+
+
 
 
 const firestore = getFirestore(app)
-
-Modal.setAppElement('#__next');
+const auth = getAuth(app)
 
 const DeleteDataPage = () => {
     const [quizTitle, setQuizTitle] = useState('');
     const [quizList, setQuizList] = useState([]);
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const router = useRouter();
+    const [user, setUser] = useState(null);
+
 
     const routers = () => {
         router.push("/startPage").then(r => true)
@@ -33,11 +38,17 @@ const DeleteDataPage = () => {
         setQuizList(quizData);
     };
 
-    //一覧表示
     useEffect(() => {
-        fetchData();
+        fetchData()
+        const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+            if (authUser) {
+                setUser(authUser);
+            } else {
+                setUser(null);
+            }
+        });
+        return () => unsubscribe();
     }, []);
-
 
     //消去機能
     const handleDelete = async () => {
@@ -50,63 +61,124 @@ const DeleteDataPage = () => {
             console.log("incomplete")
         }
         setQuizTitle("")
-        setModalOpen(false)
         fetchData();
+        setShowModal(false)
+
     };
 
-
-    const MyModal = ({ isOpen, onClose, children }) => {
+    const SmallModal = () => {
         return (
-            <Modal
-                isOpen={isOpen}
-                onRequestClose={onClose}
-                contentLabel="My Dialog"
-            >
-                {children}
-                <h2 style={{color: "black"}}>消去しますがよろしいですか？</h2>
-                <div>
-                    <button onClick={handleDelete}> 消去</button>
-                    <button onClick={onClose}>閉じる</button>
-                </div>
+            <Modal show={showModal} onHide={handleCloseModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title></Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p style={{color:"black"}}>削除しますか。</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleDelete}>
+                        削除
+                    </Button>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        閉じる
+                    </Button>
+                </Modal.Footer>
             </Modal>
+
         );
     };
 
+
+
+    const checkUid = (quiz) =>{
+        if(quiz.userId === user.uid) {
+            return (
+                <div key={quiz.id} className={styles.item}>
+                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                        {quiz.title}
+                        <FontAwesomeIcon
+                            icon={faTrashCan}
+                            onClick={(e) => onModal(quiz.title)}
+                        />
+                        <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
+                        {/*<SmallModal2 showModal2={showModal2} handleClose={handleCloseModal2}/>*/}
+                    </li>
+                </div>
+            )
+        }else {
+            return <div key={quiz.id}></div>
+        }
+
+    }
+
+
     const onModal = (selectTitle) => {
         setQuizTitle(selectTitle);
-        setModalOpen(true)
+        setShowModal(true)
     }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+//////////////////////////////////////////////////////////////////////////////////////////////
+//     const [showModal2, setShowModal2] = useState(false);
+//
+//     const SmallModal2 = () => {
+//         return (
+//             <Modal show={showModal2} onHide={handleCloseModal2} size="sm" centered>
+//                 <Modal.Header closeButton>
+//                     <Modal.Title>小さなモーダル</Modal.Title>
+//                 </Modal.Header>
+//                 <Modal.Body>
+//                     <p>これは小さなモーダルのコンテンツです。</p>
+//                 </Modal.Body>
+//                 <Modal.Footer>
+//                     <Button variant="secondary" onClick={handleDelete}>
+//                         削除
+//                     </Button>
+//                     <Button variant="secondary" onClick={handleCloseModal2}>
+//                         閉じる
+//                     </Button>
+//                 </Modal.Footer>
+//             </Modal>
+//         );
+//     };
+//
+//     const handleOpenModal2 = () => {
+//         setShowModal2(true);
+//     };
+//
+//     const handleCloseModal2 = () => {
+//         setShowModal2(false);
+//     };
+
 
     return (
         <div className={styles.parentContainer}>
             <h1 className={styles.title}>クイズの消去</h1>
-                <ul className="list-group"
-                    style={{
-                        position: "absolute",
-                        left: "50%",
-                        transform: "translate(-50%)"
-                    }}>
-                    {quizList.map((quiz) =>
-                        <div key={quiz.id} className={styles.item}>
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
-                                {quiz.title}
-                                <FontAwesomeIcon
-                                    icon={faTrashCan}
-                                    onClick={(e) => onModal(quiz.title)}
-                                />
-                                    <MyModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}/>
-                            </li>
-                        </div>
-                    )}
-                    <div>
-                        <button
-                            onClick={routers}
-                            className={styles.button}
-                        >
-                            完了
-                        </button>
-                    </div>
-                </ul>
+            <ul className="list-group"
+                style={{
+                    position: "absolute",
+                    left: "50%",
+                    transform: "translate(-50%)"
+                }}>
+                {quizList.map((quiz) => checkUid(quiz))}
+                <div>
+                    <button
+                        onClick={routers}
+                        className={styles.button}
+                    >
+                        完了
+                    </button>
+                </div>
+
+                {/*<div>*/}
+                {/*    <h1>小さなモーダル</h1>*/}
+                {/*    <button onClick={handleOpenModal2}>モーダルを開く</button>*/}
+                {/*    <SmallModal2 showModal2={showModal2} handleClose={handleCloseModal2}/>*/}
+                {/*</div>*/}
+
+            </ul>
         </div>
     );
 };
