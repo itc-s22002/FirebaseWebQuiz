@@ -31,6 +31,18 @@ const QuestionsPage = () => {
     let choice = []
     const [buttonName, setButtonName] = useState("Start")
     const [checkStart, setCheckStart] = useState(true);
+    const [inputGenre, setInputGenre] = useState('art');
+    let gen = "art"
+
+    const genres = [
+        "art",
+        "foodAndCooking",
+        "generalKnowledge",
+        "it",
+        "literature",
+        "quiz",
+        "sports"
+    ]
 
 
     useEffect(() => {
@@ -69,7 +81,6 @@ const QuestionsPage = () => {
     }
 
     const Questions = () => {
-        // console.log(randomData[count])
 
         setCount(count + 1)
         setCheckStart(false)
@@ -117,6 +128,17 @@ const QuestionsPage = () => {
         }
     }
 
+    const onStart = (e) => {
+        Questions()
+        setInputGenre(e.target.value);
+        gen = e.target.value
+        fetchData()
+
+    }
+
+    const handleSelectGenre = (e) =>{
+        setInputGenre(e.target.value);
+    }
 
     return (
         <div>
@@ -126,6 +148,15 @@ const QuestionsPage = () => {
                     <button onClick={Questions} className={styles.button}>
                         {buttonName}
                     </button>
+                    <div className="container mt-5">
+                        <label htmlFor="exampleSelect" className="form-label">Select Example</label>
+                        <select className="form-select" id="exampleSelect" value={inputGenre}
+                                onChange={handleSelectGenre}>
+                            {genres.map((gen, index) =>
+                                <option key={index} value={gen}>{gen}</option>
+                            )}
+                        </select>
+                    </div>
                 </div>
             ) : (
                 <div></div>

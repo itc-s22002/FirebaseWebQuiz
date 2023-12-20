@@ -21,6 +21,18 @@ const DeleteDataPage = () => {
     const [showModal, setShowModal] = useState(false);
     const router = useRouter();
     const [user, setUser] = useState(null);
+    const [inputGenre, setInputGenre] = useState('art');
+    let ge = "art"
+
+    const genres = [
+        "art",
+        "foodAndCooking",
+        "generalKnowledge",
+        "it",
+        "literature",
+        "quiz",
+        "sports"
+    ]
 
 
     const routers = () => {
@@ -29,7 +41,7 @@ const DeleteDataPage = () => {
 
     //ページの表示
     const fetchData = async () => {
-        const quizCollection = collection(firestore, 'quiz');
+        const quizCollection = collection(firestore, `${ge}`);
         const querySnapshot = await getDocs(quizCollection);
         const quizData = [];
         querySnapshot.forEach((doc) => {
@@ -54,7 +66,7 @@ const DeleteDataPage = () => {
     const handleDelete = async () => {
         try {
             // コレクション内のドキュメントを削除
-            await deleteDoc(doc(collection(firestore, 'quiz'), `${quizTitle}`));
+            await deleteDoc(doc(collection(firestore, `${inputGenre}`), `${quizTitle}`));
             console.log( `${quizTitle} Delete completion`)
         } catch (error) {
             console.error('Delete error:', error);
@@ -65,6 +77,13 @@ const DeleteDataPage = () => {
         setShowModal(false)
 
     };
+
+    const handleSelectGenre = (e) =>{
+        setInputGenre(e.target.value);
+        ge = e.target.value
+        fetchData();
+
+    }
 
     const SmallModal = () => {
         return (
@@ -120,42 +139,20 @@ const DeleteDataPage = () => {
     const handleCloseModal = () => {
         setShowModal(false);
     };
-//////////////////////////////////////////////////////////////////////////////////////////////
-//     const [showModal2, setShowModal2] = useState(false);
-//
-//     const SmallModal2 = () => {
-//         return (
-//             <Modal show={showModal2} onHide={handleCloseModal2} size="sm" centered>
-//                 <Modal.Header closeButton>
-//                     <Modal.Title>小さなモーダル</Modal.Title>
-//                 </Modal.Header>
-//                 <Modal.Body>
-//                     <p>これは小さなモーダルのコンテンツです。</p>
-//                 </Modal.Body>
-//                 <Modal.Footer>
-//                     <Button variant="secondary" onClick={handleDelete}>
-//                         削除
-//                     </Button>
-//                     <Button variant="secondary" onClick={handleCloseModal2}>
-//                         閉じる
-//                     </Button>
-//                 </Modal.Footer>
-//             </Modal>
-//         );
-//     };
-//
-//     const handleOpenModal2 = () => {
-//         setShowModal2(true);
-//     };
-//
-//     const handleCloseModal2 = () => {
-//         setShowModal2(false);
-//     };
+
 
 
     return (
         <div className={styles.parentContainer}>
             <h1 className={styles.title}>クイズの消去</h1>
+            <div className="container mt-5">
+                <label htmlFor="exampleSelect" className="form-label">Select Example</label>
+                <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>
+                    {genres.map((gen, index) =>
+                        <option key={index} value={gen}>{gen}</option>
+                    )}
+                </select>
+            </div>
             <ul className="list-group"
                 style={{
                     position: "absolute",
@@ -172,11 +169,6 @@ const DeleteDataPage = () => {
                     </button>
                 </div>
 
-                {/*<div>*/}
-                {/*    <h1>小さなモーダル</h1>*/}
-                {/*    <button onClick={handleOpenModal2}>モーダルを開く</button>*/}
-                {/*    <SmallModal2 showModal2={showModal2} handleClose={handleCloseModal2}/>*/}
-                {/*</div>*/}
 
             </ul>
         </div>

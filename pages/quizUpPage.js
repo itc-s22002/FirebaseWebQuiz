@@ -1,16 +1,28 @@
-import {doc, getFirestore, setDoc, collection} from "firebase/firestore"
+import {doc, getFirestore, setDoc} from "firebase/firestore"
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import React, {useState, useEffect} from "react";
 import app from '../FirebaseConfig'
 import styles from "../styles/quizUpPage.module.css"
 import {useRouter} from 'next/router';
+import selectGenre from './selectGenrePage'
 
 
 const firestore = getFirestore(app)
 const auth = getAuth(app)
 
+
 const AddQuiz = () => {
     const [user, setUser] = useState(null);
+
+    const genres = [
+        "art",
+        "foodAndCooking",
+        "generalKnowledge",
+        "it",
+        "literature",
+        "quiz",
+        "sports"
+    ]
 
     useEffect(() => {
 
@@ -39,8 +51,10 @@ const AddQuiz = () => {
     }
     const [quizData, setQuizData] = useState(quizTypeData);
     const [inputValue, setInputValue] = useState('');
+    const [inputGenre, setInputGenre] = useState('art');
     const router = useRouter();
     let quizTitle = ""
+
 
 
 
@@ -65,9 +79,9 @@ const AddQuiz = () => {
                 quizData.secT !== "" &&
                 quizData.explanation !== ""
             ) {
-                quizTitle = inputValue
+                console.log(inputGenre)
                 try {
-                    const docRef = doc(firestore, "quiz", `${quizTitle}`);
+                    const docRef = doc(firestore, inputGenre, `${inputValue}`);
                     await setDoc(docRef, quizData)
                     console.log('Document written with Title: ', docRef.id);
                     if (user) {
@@ -82,11 +96,23 @@ const AddQuiz = () => {
                 console.log("全部入ってねーよバーカ")
             }
         };
+
+        const handleSelectGenre = (e) =>{
+            setInputGenre(e.target.value);
+        }
         if (user) {
             return (
                 <div className={styles.parentContainer}>
                     <h1 className={styles.title}>クイズ作成</h1>
                     <div className={styles.items}>
+                        <div className="container mt-5">
+                            <label htmlFor="exampleSelect" className="form-label">Select Example</label>
+                            <select className="form-select" id="exampleSelect"　value={inputGenre} onChange={handleSelectGenre}>
+                                {genres.map((gen,index) =>
+                                    <option key={index} 　value= {gen}>{gen}</option>
+                                )}
+                            </select>
+                        </div>
                         <div className={styles.item}>
                             <label className={styles.labelName}>
                                 タイトル入力
@@ -185,7 +211,7 @@ const AddQuiz = () => {
                     </div>
                 </div>
             );
-        }else {
+        } else {
             return <p>Loading...</p>;
         }
 }
