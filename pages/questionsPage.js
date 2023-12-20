@@ -32,7 +32,6 @@ const QuestionsPage = () => {
     const [buttonName, setButtonName] = useState("Start")
     const [checkStart, setCheckStart] = useState(true);
     const [inputGenre, setInputGenre] = useState('art');
-    let gen = "art"
 
     const genres = [
         "art",
@@ -48,19 +47,20 @@ const QuestionsPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const collectionRef = collection(firestore, 'quiz');
-                const snapshot = await getDocs(collectionRef);
-                const data = snapshot.docs.map((doc) => doc.data());
-                const randomItems = getRandomItems(data, 10);
-                setRandomData(randomItems);
-                //console.log(randomItems[0].question)
+                if (inputGenre) {
+                    const collectionRef = collection(firestore, inputGenre);
+                    const snapshot = await getDocs(collectionRef);
+                    const data = snapshot.docs.map((doc) => doc.data());
+                    const randomItems = getRandomItems(data, 10);
+                    setRandomData(randomItems);
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [inputGenre]);
 
     const checkAnswer = (select) => {
         let ans = ""
@@ -128,13 +128,10 @@ const QuestionsPage = () => {
         }
     }
 
-    const onStart = (e) => {
-        Questions()
-        setInputGenre(e.target.value);
-        gen = e.target.value
-        fetchData()
-
+    const routers = () => {
+        router.push("/startPage").then(r => true)
     }
+
 
     const handleSelectGenre = (e) =>{
         setInputGenre(e.target.value);
@@ -156,6 +153,14 @@ const QuestionsPage = () => {
                                 <option key={index} value={gen}>{gen}</option>
                             )}
                         </select>
+                    </div>
+                    <div>
+                        <button
+                            onClick={routers}
+                            className={styles.button}
+                        >
+                            スタートに戻る
+                        </button>
                     </div>
                 </div>
             ) : (
