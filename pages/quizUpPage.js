@@ -10,6 +10,7 @@ import selectGenre from './selectGenrePage'
 const firestore = getFirestore(app)
 const auth = getAuth(app)
 
+
 const AddQuiz = () => {
     const [user, setUser] = useState(null);
 
@@ -78,7 +79,7 @@ const AddQuiz = () => {
                 quizData.secT !== "" &&
                 quizData.explanation !== ""
             ) {
-                let genre = "art"
+                let genre = inputGenre
                 quizTitle = inputValue
                 console.log(genre)
                 try {
@@ -97,6 +98,10 @@ const AddQuiz = () => {
                 console.log("全部入ってねーよバーカ")
             }
         };
+
+        const handleSelectGenre = (e) =>{
+            setInputGenre(e.target.value);
+        }
         if (user) {
             return (
                 <div className={styles.parentContainer}>
@@ -104,9 +109,9 @@ const AddQuiz = () => {
                     <div className={styles.items}>
                         <div className="container mt-5">
                             <label htmlFor="exampleSelect" className="form-label">Select Example</label>
-                            <select className="form-select" id="exampleSelect"　value={inputGenre}>
+                            <select className="form-select" id="exampleSelect"　value={inputGenre} onChange={handleSelectGenre}>
                                 {genres.map((gen,index) =>
-                                    <option key={index} 　value= {`option${index}`}>{gen}</option>
+                                    <option key={index} 　value= {gen}>{gen}</option>
                                 )}
                             </select>
                         </div>
