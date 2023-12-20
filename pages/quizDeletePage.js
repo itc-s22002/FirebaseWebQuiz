@@ -101,6 +101,7 @@ const DeleteDataPage = () => {
                             onClick={(e) => onModal(quiz.title)}
                         />
                         <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
+                        {/*<SmallModal2 showModal2={showModal2} handleClose={handleCloseModal2}/>*/}
                     </li>
                 </div>
             )
@@ -119,6 +120,37 @@ const DeleteDataPage = () => {
     const handleCloseModal = () => {
         setShowModal(false);
     };
+//////////////////////////////////////////////////////////////////////////////////////////////
+//     const [showModal2, setShowModal2] = useState(false);
+//
+//     const SmallModal2 = () => {
+//         return (
+//             <Modal show={showModal2} onHide={handleCloseModal2} size="sm" centered>
+//                 <Modal.Header closeButton>
+//                     <Modal.Title>小さなモーダル</Modal.Title>
+//                 </Modal.Header>
+//                 <Modal.Body>
+//                     <p>これは小さなモーダルのコンテンツです。</p>
+//                 </Modal.Body>
+//                 <Modal.Footer>
+//                     <Button variant="secondary" onClick={handleDelete}>
+//                         削除
+//                     </Button>
+//                     <Button variant="secondary" onClick={handleCloseModal2}>
+//                         閉じる
+//                     </Button>
+//                 </Modal.Footer>
+//             </Modal>
+//         );
+//     };
+//
+//     const handleOpenModal2 = () => {
+//         setShowModal2(true);
+//     };
+//
+//     const handleCloseModal2 = () => {
+//         setShowModal2(false);
+//     };
 
 
     return (
@@ -139,6 +171,13 @@ const DeleteDataPage = () => {
                         完了
                     </button>
                 </div>
+
+                {/*<div>*/}
+                {/*    <h1>小さなモーダル</h1>*/}
+                {/*    <button onClick={handleOpenModal2}>モーダルを開く</button>*/}
+                {/*    <SmallModal2 showModal2={showModal2} handleClose={handleCloseModal2}/>*/}
+                {/*</div>*/}
+
             </ul>
         </div>
     );
