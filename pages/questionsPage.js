@@ -127,7 +127,7 @@ const QuestionsPage = () => {
                         {buttonName}
                     </button>
                 </div>
-            ):(
+            ) : (
                 <div></div>
             )}
         </div>
