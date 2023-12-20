@@ -51,7 +51,7 @@ const AddQuiz = () => {
     }
     const [quizData, setQuizData] = useState(quizTypeData);
     const [inputValue, setInputValue] = useState('');
-    const [inputGenre, setInputGenre] = useState('');
+    const [inputGenre, setInputGenre] = useState('art');
     const router = useRouter();
     let quizTitle = ""
 
@@ -79,11 +79,9 @@ const AddQuiz = () => {
                 quizData.secT !== "" &&
                 quizData.explanation !== ""
             ) {
-                let genre = inputGenre
-                quizTitle = inputValue
-                console.log(genre)
+                console.log(inputGenre)
                 try {
-                    const docRef = doc(firestore, genre, `${quizTitle}`);
+                    const docRef = doc(firestore, inputGenre, `${inputValue}`);
                     await setDoc(docRef, quizData)
                     console.log('Document written with Title: ', docRef.id);
                     if (user) {
