@@ -6,7 +6,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/quizDelete.module.css'
 import {useRouter} from "next/router";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import { Modal, Button } from 'react-bootstrap';
+import {Modal, Button, InputGroup} from 'react-bootstrap';
 
 
 
@@ -22,7 +22,6 @@ const DeleteDataPage = () => {
     const router = useRouter();
     const [user, setUser] = useState(null);
     const [inputGenre, setInputGenre] = useState('art');
-    let ge = "art"
 
     const genres = [
         "art",
@@ -36,22 +35,31 @@ const DeleteDataPage = () => {
 
 
     const routers = () => {
-        router.push("/startPage").then(r => true)
+        router.push("/selectMode").then(r => true)
+    }
+
+    const fetchData = async () => {
+        try {
+            if (inputGenre) {
+                const quizCollection = collection(firestore, inputGenre);
+                const querySnapshot = await getDocs(quizCollection);
+                const quizData = [];
+                querySnapshot.forEach((doc) => {
+                    quizData.push({id: doc.id, ...doc.data()});
+                });
+                setQuizList(quizData);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
 
     //ページの表示
-    const fetchData = async () => {
-        const quizCollection = collection(firestore, `${ge}`);
-        const querySnapshot = await getDocs(quizCollection);
-        const quizData = [];
-        querySnapshot.forEach((doc) => {
-            quizData.push({ id: doc.id, ...doc.data() });
-        });
-        setQuizList(quizData);
-    };
+    useEffect(() => {
+            fetchData()
+    },[inputGenre])
 
     useEffect(() => {
-        fetchData()
         const unsubscribe = onAuthStateChanged(auth, (authUser) => {
             if (authUser) {
                 setUser(authUser);
@@ -66,23 +74,20 @@ const DeleteDataPage = () => {
     const handleDelete = async () => {
         try {
             // コレクション内のドキュメントを削除
-            await deleteDoc(doc(collection(firestore, `${inputGenre}`), `${quizTitle}`));
+            await deleteDoc(doc(collection(firestore, inputGenre), quizTitle));
             console.log( `${quizTitle} Delete completion`)
         } catch (error) {
             console.error('Delete error:', error);
             console.log("incomplete")
         }
         setQuizTitle("")
-        fetchData();
+        fetchData()
         setShowModal(false)
 
     };
 
     const handleSelectGenre = (e) =>{
         setInputGenre(e.target.value);
-        ge = e.target.value
-        fetchData();
-
     }
 
     const SmallModal = () => {
@@ -146,7 +151,7 @@ const DeleteDataPage = () => {
         <div className={styles.parentContainer}>
             <h1 className={styles.title}>クイズの消去</h1>
             <div className="container mt-5">
-                <label htmlFor="exampleSelect" className="form-label">Select Example</label>
+                <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
                 <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>
                     {genres.map((gen, index) =>
                         <option key={index} value={gen}>{gen}</option>

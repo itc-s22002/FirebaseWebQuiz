@@ -25,7 +25,6 @@ const AddQuiz = () => {
     ]
 
     useEffect(() => {
-
         // ログイン状態が変更されたときに呼ばれるコールバック
         const unsubscribe = onAuthStateChanged(auth, (authUser) => {
             if (authUser) {
@@ -49,17 +48,18 @@ const AddQuiz = () => {
         explanation: "",
         userId:""
     }
+
+
     const [quizData, setQuizData] = useState(quizTypeData);
     const [inputValue, setInputValue] = useState('');
     const [inputGenre, setInputGenre] = useState('art');
     const router = useRouter();
-    let quizTitle = ""
 
 
 
 
     const routers = () => {
-            router.push("/startPage").then(r => true)
+            router.push("/selectMode").then(r => true)
         }
 
 
@@ -81,7 +81,7 @@ const AddQuiz = () => {
             ) {
                 console.log(inputGenre)
                 try {
-                    const docRef = doc(firestore, inputGenre, `${inputValue}`);
+                    const docRef = doc(firestore, inputGenre, inputValue);
                     await setDoc(docRef, quizData)
                     console.log('Document written with Title: ', docRef.id);
                     if (user) {
@@ -106,10 +106,11 @@ const AddQuiz = () => {
                     <h1 className={styles.title}>クイズ作成</h1>
                     <div className={styles.items}>
                         <div className="container mt-5">
-                            <label htmlFor="exampleSelect" className="form-label">Select Example</label>
-                            <select className="form-select" id="exampleSelect"　value={inputGenre} onChange={handleSelectGenre}>
-                                {genres.map((gen,index) =>
-                                    <option key={index} 　value= {gen}>{gen}</option>
+                            <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
+                            <select className="form-select" id="exampleSelect" value={inputGenre}
+                                    onChange={handleSelectGenre}>
+                                {genres.map((gen, index) =>
+                                    <option key={index} value={gen}>{gen}</option>
                                 )}
                             </select>
                         </div>
