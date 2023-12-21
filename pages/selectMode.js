@@ -7,7 +7,7 @@ const selectMode = () => {
     const router = useRouter();
     //クイズ作成ページび遷移する
     const routersCreatePage = () => {
-        router.push("/quizUpPage").then(r => true)
+        router.push("/quizCreatePage").then(r => true)
     }
     //クイズ消去ページに遷移する
     const routersDeletePage = () => {

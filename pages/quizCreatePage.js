@@ -216,7 +216,7 @@ const AddQuiz = () => {
     }
 }
 
-const upQuiz = () => {
+const createQuiz = () => {
     return (
         <>
             <AddQuiz/>
@@ -224,4 +224,4 @@ const upQuiz = () => {
     )
 }
 
-export default upQuiz
+export default createQuiz
