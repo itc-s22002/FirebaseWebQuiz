@@ -49,11 +49,14 @@ const DeleteDataPage = () => {
                     quizData.push({id: doc.id, ...doc.data()});
                 });
                 setQuizList(quizData);
+                console.log(quizList)
+
             }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-    }
+    };
+
     //最初にページの表示
     useEffect(() => {
             fetchData()
@@ -176,8 +179,6 @@ const DeleteDataPage = () => {
                         完了
                     </button>
                 </div>
-
-
             </ul>
         </div>
     );
