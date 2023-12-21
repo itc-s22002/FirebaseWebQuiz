@@ -5,15 +5,15 @@ import styles from "../styles/selectMode.module.css"
 
 const selectMode = () => {
     const router = useRouter();
-
+    //クイズ作成ページび遷移する
     const routersCreatePage = () => {
         router.push("/quizUpPage").then(r => true)
     }
-
+    //クイズ消去ページに遷移する
     const routersDeletePage = () => {
         router.push("/quizDeletePage").then(r => true)
     }
-
+    //スタートにページに遷移する
     const routersStartPage = () => {
         router.push("/startPage").then(r => true)
     }

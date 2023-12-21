@@ -33,11 +33,12 @@ const DeleteDataPage = () => {
         "sports"
     ]
 
-
+    //ジャンル選択に戻る
     const routers = () => {
         router.push("/selectMode").then(r => true)
     }
 
+    //クイズデータを持ってくる
     const fetchData = async () => {
         try {
             if (inputGenre) {
@@ -53,8 +54,7 @@ const DeleteDataPage = () => {
             console.error('Error fetching data:', error);
         }
     }
-
-    //ページの表示
+    //最初にページの表示
     useEffect(() => {
             fetchData()
     },[inputGenre])
@@ -86,10 +86,12 @@ const DeleteDataPage = () => {
 
     };
 
+    //選んだジャンルをぶち込む
     const handleSelectGenre = (e) =>{
         setInputGenre(e.target.value);
     }
 
+    //モーダル
     const SmallModal = () => {
         return (
             <Modal show={showModal} onHide={handleCloseModal} centered>
@@ -113,7 +115,7 @@ const DeleteDataPage = () => {
     };
 
 
-
+    //制作者のみ表示する
     const checkUid = (quiz) =>{
         if(quiz.userId === user.uid) {
             return (
@@ -136,11 +138,12 @@ const DeleteDataPage = () => {
     }
 
 
+    //モーダルを表示し、タイトルをぶち込む
     const onModal = (selectTitle) => {
         setQuizTitle(selectTitle);
         setShowModal(true)
     }
-
+    //モーダルをオフ
     const handleCloseModal = () => {
         setShowModal(false);
     };

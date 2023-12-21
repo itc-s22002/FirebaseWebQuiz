@@ -3,11 +3,11 @@ import {useRouter} from "next/router";
 
 const startPage = () => {
     const router = useRouter();
-
+    //出題ページに遷移する
     const routersQuestionModePage = () => {
         router.push("/questionsPage").then(r => true)
     }
-
+    //モード選択画面に遷移する
     const routersSelectModePage = () => {
         router.push("/selectMode").then(r => true)
     }
@@ -15,7 +15,7 @@ const startPage = () => {
     return (
         <div>
             <h1 className={styles.title}>
-                選んでください
+                一問一答
             </h1>
             <div className={styles.buttons}>
                 <div>
