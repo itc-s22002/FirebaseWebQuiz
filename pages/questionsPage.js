@@ -7,10 +7,12 @@ import styles from "@/styles/question.module.css";
 
 const firestore = getFirestore(app)
 
+//firebaseのデータを十個ランダムに持ってくるのに使う
 const getRandomItems = (array, count) => {
     const shuffled = array.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
 };
+//選択肢をシャッフルするにに使う
 
 const shuffleArray = (array) => {
     // 配列をシャッフルする関数
@@ -22,6 +24,7 @@ const shuffleArray = (array) => {
     return shuffledArray;
 }
 
+//メイン
 const QuestionsPage = () => {
     const [randomData, setRandomData] = useState([]);
     const router = useRouter();
@@ -31,6 +34,7 @@ const QuestionsPage = () => {
     let choice = []
     const [buttonName, setButtonName] = useState("Start")
     const [checkStart, setCheckStart] = useState(true);
+    const [checkStart2, setCheckStart2] = useState(true);
     const [inputGenre, setInputGenre] = useState('art');
 
     const genres = [
@@ -43,6 +47,7 @@ const QuestionsPage = () => {
         "sports"
     ]
 
+    //firestoreからデータを十個取得し表示する
 
     useEffect(() => {
         const fetchData = async () => {
@@ -62,6 +67,7 @@ const QuestionsPage = () => {
         fetchData();
     }, [inputGenre]);
 
+    //正解かどうかチェックし解説画面の表示する
     const checkAnswer = (select) => {
         let ans = ""
         setCheckStart(true)
@@ -80,7 +86,9 @@ const QuestionsPage = () => {
         )
     }
 
+    //問題を表示するする
     const Questions = () => {
+        setCheckStart2(false)
 
         setCount(count + 1)
         setCheckStart(false)
@@ -128,13 +136,28 @@ const QuestionsPage = () => {
         }
     }
 
+    //スタートに戻るやつ
     const routers = () => {
         router.push("/startPage").then(r => true)
     }
 
-
-    const handleSelectGenre = (e) =>{
+    //ジャンルをえらんでぶち込む
+    const handleSelectGenre = (e) => {
         setInputGenre(e.target.value);
+    }
+
+    const checkGenreMenu = () => {
+        return (
+            <div className="container mt-5">
+                <label htmlFor="exampleSelect" className="form-label">Select Example</label>
+                <select className="form-select" id="exampleSelect" value={inputGenre}
+                        onChange={handleSelectGenre}>
+                    {genres.map((gen, index) =>
+                        <option key={index} value={gen}>{gen}</option>
+                    )}
+                </select>
+            </div>
+        )
     }
 
     return (
@@ -145,15 +168,9 @@ const QuestionsPage = () => {
                     <button onClick={Questions} className={styles.button}>
                         {buttonName}
                     </button>
-                    <div className="container mt-5">
-                        <label htmlFor="exampleSelect" className="form-label">Select Example</label>
-                        <select className="form-select" id="exampleSelect" value={inputGenre}
-                                onChange={handleSelectGenre}>
-                            {genres.map((gen, index) =>
-                                <option key={index} value={gen}>{gen}</option>
-                            )}
-                        </select>
-                    </div>
+                    {checkStart2 && (
+                        <div>{checkGenreMenu()}</div>
+                    )}
                     <div>
                         <button
                             onClick={routers}
