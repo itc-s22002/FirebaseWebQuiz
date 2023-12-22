@@ -1,7 +1,10 @@
+import Header from "@/components/header";
+import StartPage from "./startPage";
+
 const Home = () =>{
   return (
     <>
-      WebQuiz
+        <StartPage />
     </>
   )
 }

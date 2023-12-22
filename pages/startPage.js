@@ -1,7 +1,8 @@
 import styles from "../styles/startPage.module.css"
 import {useRouter} from "next/router";
+import Header from "@/components/header";
 
-const startPage = () => {
+const StartPage = () => {
     const router = useRouter();
     //出題ページに遷移する
     const routersQuestionModePage = () => {
@@ -14,9 +15,7 @@ const startPage = () => {
 
     return (
         <div>
-            <h1 className={styles.title}>
-                一問一答
-            </h1>
+            <Header title={"四択クイズ"}/>
             <div className={styles.buttons}>
                 <div>
                     <button onClick={routersQuestionModePage} className={styles.button}>スタート</button>
@@ -29,4 +28,4 @@ const startPage = () => {
     )
 }
 
-export default startPage
+export default StartPage

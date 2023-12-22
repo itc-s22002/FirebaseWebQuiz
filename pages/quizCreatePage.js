@@ -5,6 +5,7 @@ import app from '../FirebaseConfig'
 import styles from "../styles/quizUpPage.module.css"
 import {useRouter} from 'next/router';
 import selectGenre from './selectGenrePage'
+import Header from "@/components/header";
 
 
 const firestore = getFirestore(app)
@@ -102,7 +103,7 @@ const AddQuiz = () => {
     if (user) {
         return (
             <div className={styles.parentContainer}>
-                <h1 className={styles.title}>クイズ作成</h1>
+                <Header title="クイズ作成"/>
                 <div className={styles.items}>
                     <div className="container mt-5">
                         <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
