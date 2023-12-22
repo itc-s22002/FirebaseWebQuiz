@@ -7,6 +7,7 @@ import styles from '../styles/quizDelete.module.css'
 import {useRouter} from "next/router";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {Modal, Button, InputGroup} from 'react-bootstrap';
+import Header from "@/components/header";
 
 
 
@@ -155,7 +156,7 @@ const DeleteDataPage = () => {
 
     return (
         <div className={styles.parentContainer}>
-            <h1 className={styles.title}>クイズの消去</h1>
+            <Header title={"クイズの消去"}/>
             <div className="container mt-5">
                 <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
                 <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>

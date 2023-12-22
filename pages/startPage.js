@@ -1,5 +1,6 @@
 import styles from "../styles/startPage.module.css"
 import {useRouter} from "next/router";
+import Header from "@/components/header";
 
 const startPage = () => {
     const router = useRouter();
@@ -14,9 +15,7 @@ const startPage = () => {
 
     return (
         <div>
-            <h1 className={styles.title}>
-                一問一答
-            </h1>
+            <Header title={"一問一答"}/>
             <div className={styles.buttons}>
                 <div>
                     <button onClick={routersQuestionModePage} className={styles.button}>スタート</button>

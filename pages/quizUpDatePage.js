@@ -6,6 +6,7 @@ import {useRouter} from "next/router";
 import styles from "@/styles/quizUpPage.module.css";
 import {faPen} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Header from "@/components/header";
 
 const firestore = getFirestore(app)
 const auth = getAuth(app)
@@ -131,7 +132,7 @@ const UpDataQuiz = () => {
     if (user) {
         return (
             <div className={styles.parentContainer}>
-                <h1 className={styles.title}>クイズ更新</h1>
+                <Header title={"クイズの更新"}/>
                 <div className="container mt-5">
                     <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
                     <select className="form-select" id="exampleSelect" value={inputGenre}

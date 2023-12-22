@@ -3,6 +3,7 @@ import {getFirestore, getDoc, doc, collection, getDocs} from "firebase/firestore
 import React, {useState, useEffect} from "react";
 import {useRouter} from 'next/router';
 import styles from "@/styles/question.module.css";
+import Header from "@/components/header";
 
 
 const firestore = getFirestore(app)
@@ -162,6 +163,7 @@ const QuestionsPage = () => {
 
     return (
         <div>
+            <Header title=""/>
             <div>{displayText}</div>
             {checkStart ? (
                 <div className={styles.buttons}>

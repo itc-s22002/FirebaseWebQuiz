@@ -1,7 +1,12 @@
+import Header from "@/components/header";
+
 const Home = () =>{
   return (
     <>
-      WebQuiz
+        <Header />
+        <div>
+            WebQuiz
+        </div>
     </>
   )
 }
