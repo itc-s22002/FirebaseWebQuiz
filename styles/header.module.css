@@ -5,7 +5,6 @@
 
 .title{
     margin: 20px;
-    text-align: center;
 
 }
 
@@ -20,4 +19,15 @@
     transform: translate(-50%);
     margin-top: 10px;
 
+}
+
+.item2{
+    margin: 45px;
+    text-align: right;
+}
+
+.spaceBetWeen{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

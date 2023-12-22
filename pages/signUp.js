@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {createUserWithEmailAndPassword, getAuth} from 'firebase/auth';
 import app from '../FirebaseConfig';
 import { useRouter } from 'next/router';
-import styles from "@/styles/login.module.css";
+import styles from "../styles/login.module.css";
 
 const auth = getAuth(app)
 
