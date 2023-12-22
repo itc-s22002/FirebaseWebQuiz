@@ -15,7 +15,7 @@ const StartPage = () => {
 
     return (
         <div>
-            <Header title={"一問一答"}/>
+            <Header title={"四択クイズ"}/>
             <div className={styles.buttons}>
                 <div>
                     <button onClick={routersQuestionModePage} className={styles.button}>スタート</button>

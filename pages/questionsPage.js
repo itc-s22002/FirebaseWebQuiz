@@ -83,17 +83,22 @@ const QuestionsPage = () => {
                 <h1 className={styles.title}>{ans}</h1>
                 <h2 className={styles.questions}>問{count + 1}解説:{randomData[count].explanation}</h2>
                 <h2 className={styles.score}>score:{score}点</h2>
+
             </div>
         )
     }
 
+    //リロードするやつ
+    const reload = () =>{
+        window.location.reload();
+    }
     //問題を表示するする
     const Questions = () => {
         setCheckStart2(false)
-
         setCount(count + 1)
         setCheckStart(false)
         setButtonName("next")
+
 
         if (count === 10) {
             console.log("not data")
@@ -150,7 +155,7 @@ const QuestionsPage = () => {
     const checkGenreMenu = () => {
         return (
             <div className="container mt-5">
-                <label htmlFor="exampleSelect" className="form-label">Select Example</label>
+                <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
                 <select className="form-select" id="exampleSelect" value={inputGenre}
                         onChange={handleSelectGenre}>
                     {genres.map((gen, index) =>
@@ -163,24 +168,16 @@ const QuestionsPage = () => {
 
     return (
         <div>
-            <Header title=""/>
+            <Header title="一問一答"/>
             <div>{displayText}</div>
             {checkStart ? (
                 <div className={styles.buttons}>
-                    <button onClick={Questions} className={styles.button}>
-                        {buttonName}
-                    </button>
                     {checkStart2 && (
                         <div>{checkGenreMenu()}</div>
                     )}
-                    <div>
-                        <button
-                            onClick={routers}
-                            className={styles.button}
-                        >
-                            スタートに戻る
-                        </button>
-                    </div>
+                    <button onClick={Questions} className={styles.button}>
+                        {buttonName}
+                    </button>
                 </div>
             ) : (
                 <div></div>
