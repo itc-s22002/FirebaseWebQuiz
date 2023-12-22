@@ -22,8 +22,10 @@
 }
 
 .item2{
-    margin: 45px;
+    margin: 33px;
     text-align: right;
+    width: 140px;
+    height: 50px;
 }
 
 .spaceBetWeen{

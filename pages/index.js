@@ -1,12 +1,10 @@
 import Header from "@/components/header";
+import StartPage from "./startPage";
 
 const Home = () =>{
   return (
     <>
-        <Header />
-        <div>
-            WebQuiz
-        </div>
+        <StartPage />
     </>
   )
 }

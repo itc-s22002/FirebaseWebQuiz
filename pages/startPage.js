@@ -2,7 +2,7 @@ import styles from "../styles/startPage.module.css"
 import {useRouter} from "next/router";
 import Header from "@/components/header";
 
-const startPage = () => {
+const StartPage = () => {
     const router = useRouter();
     //出題ページに遷移する
     const routersQuestionModePage = () => {
@@ -28,4 +28,4 @@ const startPage = () => {
     )
 }
 
-export default startPage
+export default StartPage

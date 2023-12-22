@@ -3,6 +3,7 @@ import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import app from '../FirebaseConfig';
 import { useRouter } from 'next/router';
 import styles from "../styles/login.module.css";
+import Header from "@/components/header";
 const auth = getAuth(app)
 
 const LoginPage = () => {
@@ -26,7 +27,7 @@ const LoginPage = () => {
 
     return (
         <div>
-            <h1 className={styles.h1}>ログイン</h1>
+            <Header title={"ログイン"} />
             <div className={styles.content}>
                 <form onSubmit={handleLogin}>
                     <div>

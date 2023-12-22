@@ -3,6 +3,7 @@ import {createUserWithEmailAndPassword, getAuth} from 'firebase/auth';
 import app from '../FirebaseConfig';
 import { useRouter } from 'next/router';
 import styles from "../styles/login.module.css";
+import Header from "@/components/header";
 
 const auth = getAuth(app)
 
@@ -26,7 +27,7 @@ const AddUserPage = () => {
 
     return (
         <div>
-            <h1 className={styles.h1}>ユーザー登録</h1>
+            <Header title={"新規登録"}/>
             <div className={styles.content}>
                 <form onSubmit={handleRegister}>
                     <div>
