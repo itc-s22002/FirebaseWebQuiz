@@ -1,5 +1,5 @@
 import app from '../FirebaseConfig'
-import {getFirestore, getDoc, doc, collection, getDocs} from "firebase/firestore";
+import {getFirestore, collection, getDocs} from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import {useRouter} from 'next/router';
 import styles from "@/styles/question.module.css";
@@ -13,8 +13,8 @@ const getRandomItems = (array, count) => {
     const shuffled = array.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
 };
-//選択肢をシャッフルするにに使う
 
+//配列を渡してシャッフルする関数
 const shuffleArray = (array) => {
     // 配列をシャッフルする関数
     const shuffledArray = [...array];
@@ -27,7 +27,7 @@ const shuffleArray = (array) => {
 
 //メイン
 const QuestionsPage = () => {
-    const [randomData, setRandomData] = useState([]);
+    const [quizList, setQuizList] = useState([]);
     const router = useRouter();
     const [count, setCount] = useState(0)
     const [score, setScore] = useState(0)
@@ -48,8 +48,7 @@ const QuestionsPage = () => {
         "sports"
     ]
 
-    //firestoreからデータを十個取得し表示する
-
+    //firestoreからデータを取得する
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -58,7 +57,7 @@ const QuestionsPage = () => {
                     const snapshot = await getDocs(collectionRef);
                     const data = snapshot.docs.map((doc) => doc.data());
                     const randomItems = getRandomItems(data, 10);
-                    setRandomData(randomItems);
+                    setQuizList(randomItems);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -68,11 +67,11 @@ const QuestionsPage = () => {
         fetchData();
     }, [inputGenre]);
 
-    //正解かどうかチェックし解説画面の表示する
+    //正解かどうかチェックし解説画面を表示する
     const checkAnswer = (select) => {
         let ans = ""
         setCheckStart(true)
-        if (randomData[count].secAnS === select) {
+        if (quizList[count].secAnS === select) {
             setScore(score + 10)
             ans = "正解"
         } else {
@@ -81,14 +80,14 @@ const QuestionsPage = () => {
         setDisplayText(
             <div>
                 <h1 className={styles.title}>{ans}</h1>
-                <h2 className={styles.questions}>問{count + 1}解説:{randomData[count].explanation}</h2>
+                <h2 className={styles.questions}>問{count + 1}解説:{quizList[count].explanation}</h2>
                 <h2 className={styles.score}>score:{score}点</h2>
 
             </div>
         )
     }
 
-    //リロードするやつ
+    //リロードするやつ、使うかどうかわからん
     const reload = () =>{
         window.location.reload();
     }
@@ -99,10 +98,9 @@ const QuestionsPage = () => {
         setCheckStart(false)
         setButtonName("next")
 
-
+        //述懐回したらリザルト画面を表示する
         if (count === 10) {
             console.log("not data")
-            //router.push("/startPage").then(r => true)
             setDisplayText(
                 <div className={styles.buttons}>
                     <h1 className={styles.title}>{score}点</h1>
@@ -112,11 +110,12 @@ const QuestionsPage = () => {
                 </div>
             )
         } else {
-            choice = (shuffleArray([randomData[count].secAnS, randomData[count].secS, randomData[count].secT, randomData[count].secF]));
+            //シャッフル関数に選択肢をぶち込んで配列に突っ込む
+            choice = (shuffleArray([quizList[count].secAnS, quizList[count].secS, quizList[count].secT, quizList[count].secF]));
             setDisplayText(
                 <div>
-                    <h1 className={styles.title}>{randomData[count].title}</h1>
-                    <h2 className={styles.questions}>問{count + 1}:{randomData[count].question}</h2>
+                    <h1 className={styles.title}>{quizList[count].title}</h1>
+                    <h2 className={styles.questions}>問{count + 1}:{quizList[count].question}</h2>
                     <h2 className={styles.score}>score:{score}点</h2>
                     <div className={styles.buttons}>
                         <div>
@@ -151,7 +150,7 @@ const QuestionsPage = () => {
     const handleSelectGenre = (e) => {
         setInputGenre(e.target.value);
     }
-
+    //ジャンルを選ぶメニュー
     const checkGenreMenu = () => {
         return (
             <div className="container mt-5">
@@ -170,6 +169,7 @@ const QuestionsPage = () => {
         <div>
             <Header title="一問一答"/>
             <div>{displayText}</div>
+            {/*スタートページか判定し違っていたら何も表示しない*/}
             {checkStart ? (
                 <div className={styles.buttons}>
                     {checkStart2 && (

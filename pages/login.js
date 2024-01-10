@@ -16,7 +16,7 @@ const LoginPage = () => {
         try {
             // FirebaseのsignInWithEmailShowcaseAndPasswordメソッドを使用してログイン
             await signInWithEmailAndPassword(auth, email, password);
-             router.push('/startPage'); // ログイン成功後、ダッシュボードページに移動
+             router.push('/startPage').then(r => true); // ログイン成功後、ダッシュボードページに移動
             console.log("Ok")
         } catch (error) {
             console.error('Login error:', error);

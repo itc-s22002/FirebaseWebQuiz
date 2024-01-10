@@ -16,7 +16,7 @@ const selectMode = () => {
     }
 
     const routersUpdatePage = () => {
-        router.push("/quizDeletePage").then(r => true)
+        router.push("/quizUpDatePage").then(r => true)
     }
     //スタートにページに遷移する
     const routersStartPage = () => {

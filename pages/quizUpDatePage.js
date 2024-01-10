@@ -15,7 +15,7 @@ const UpDataQuiz = () => {
     const [user, setUser] = useState(null);
     const [quizList, setQuizList] = useState([]);
     const [inputGenre, setInputGenre] = useState('');
-    const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState('----------');
 
     const genres = [
         "art",

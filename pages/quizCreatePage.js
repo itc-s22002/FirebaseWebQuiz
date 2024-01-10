@@ -4,7 +4,6 @@ import React, {useState, useEffect} from "react";
 import app from '../FirebaseConfig'
 import styles from "../styles/quizUpPage.module.css"
 import {useRouter} from 'next/router';
-import selectGenre from './selectGenrePage'
 import Header from "@/components/header";
 
 
@@ -69,6 +68,7 @@ const AddQuiz = () => {
 
     //登録
     const addDocumentToFirestore = async () => {
+        //入力項目に埋まっているか確認する
         if (
             quizData.title !== "" &&
             quizData.question !== "" &&
@@ -100,6 +100,7 @@ const AddQuiz = () => {
     const handleSelectGenre = (e) => {
         setInputGenre(e.target.value);
     }
+    //ログインしているか確認
     if (user) {
         return (
             <div className={styles.parentContainer}>

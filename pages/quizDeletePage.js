@@ -1,16 +1,13 @@
-import {collection, doc, deleteDoc, getFirestore,getDocs} from "firebase/firestore"
+import {collection, doc, deleteDoc, getFirestore, getDocs} from "firebase/firestore"
 import React, {useEffect, useState} from "react";
 import app from "../FirebaseConfig";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTrashCan} from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/quizDelete.module.css'
 import {useRouter} from "next/router";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import {Modal, Button, InputGroup} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import Header from "@/components/header";
-
-
-
 
 
 const firestore = getFirestore(app)
@@ -60,8 +57,8 @@ const DeleteDataPage = () => {
 
     //最初にページの表示
     useEffect(() => {
-            fetchData()
-    },[inputGenre])
+        fetchData()
+    }, [inputGenre])
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (authUser) => {
@@ -79,7 +76,7 @@ const DeleteDataPage = () => {
         try {
             // コレクション内のドキュメントを削除
             await deleteDoc(doc(collection(firestore, inputGenre), quizTitle));
-            console.log( `${quizTitle} Delete completion`)
+            console.log(`${quizTitle} Delete completion`)
         } catch (error) {
             console.error('Delete error:', error);
             console.log("incomplete")
@@ -91,7 +88,7 @@ const DeleteDataPage = () => {
     };
 
     //選んだジャンルをぶち込む
-    const handleSelectGenre = (e) =>{
+    const handleSelectGenre = (e) => {
         setInputGenre(e.target.value);
     }
 
@@ -103,7 +100,7 @@ const DeleteDataPage = () => {
                     <Modal.Title></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p style={{color:"black"}}>削除しますか。</p>
+                    <p style={{color: "black"}}>削除しますか。</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleDelete}>
@@ -120,8 +117,8 @@ const DeleteDataPage = () => {
 
 
     //制作者のみ表示する
-    const checkUid = (quiz) =>{
-        if(quiz.userId === user.uid) {
+    const checkUid = (quiz) => {
+        if (quiz.userId === user.uid) {
             return (
                 <div key={quiz.id} className={styles.item}>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
@@ -135,7 +132,7 @@ const DeleteDataPage = () => {
                     </li>
                 </div>
             )
-        }else {
+        } else {
             return <div key={quiz.id}></div>
         }
 
@@ -153,34 +150,33 @@ const DeleteDataPage = () => {
     };
 
 
-
     return (
         <div className={styles.parentContainer}>
             <Header title={"クイズの消去"}/>
-            <div className="container mt-5">
-                <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
-                <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>
-                    {genres.map((gen, index) =>
-                        <option key={index} value={gen}>{gen}</option>
-                    )}
-                </select>
-            </div>
-            <ul className="list-group"
-                style={{
-                    position: "absolute",
-                    left: "50%",
-                    transform: "translate(-50%)"
-                }}>
-                {quizList.map((quiz) => checkUid(quiz))}
-                <div>
-                    <button
-                        onClick={routers}
-                        className={styles.button}
-                    >
-                        完了
-                    </button>
+                <div className="container mt-5">
+                    <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
+                    <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>
+                        {genres.map((gen, index) =>
+                            <option key={index} value={gen}>{gen}</option>
+                        )}
+                    </select>
                 </div>
-            </ul>
+                <ul className="list-group"
+                    style={{
+                        position: "absolute",
+                        left: "50%",
+                        transform: "translate(-50%)"
+                    }}>
+                    {quizList.map((quiz) => checkUid(quiz))}
+                    <div>
+                        <button
+                            onClick={routers}
+                            className={styles.button}
+                        >
+                            完了
+                        </button>
+                    </div>
+                </ul>
         </div>
     );
 };
