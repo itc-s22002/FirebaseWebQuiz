@@ -2,7 +2,7 @@ import app from '../FirebaseConfig'
 import {getFirestore, collection, getDocs} from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import {useRouter} from 'next/router';
-import styles from "@/styles/question.module.css";
+import styles from "../styles/question.module.css";
 import Header from "@/components/header";
 
 
@@ -36,15 +36,15 @@ const QuestionsPage = () => {
     const [buttonName, setButtonName] = useState("Start")
     const [checkStart, setCheckStart] = useState(true);
     const [checkStart2, setCheckStart2] = useState(true);
-    const [inputGenre, setInputGenre] = useState('art');
+    const [inputGenre, setInputGenre] = useState('quiz');
 
     const genres = [
-        "art",
+        "quiz",
         "foodAndCooking",
         "generalKnowledge",
         "it",
         "literature",
-        "quiz",
+        "art",
         "sports"
     ]
 
@@ -80,6 +80,7 @@ const QuestionsPage = () => {
         setDisplayText(
             <div>
                 <h1 className={styles.title}>{ans}</h1>
+                <h2 className={styles.questions}>答え:{quizList[count].secAnS}</h2>
                 <h2 className={styles.questions}>問{count + 1}解説:{quizList[count].explanation}</h2>
                 <h2 className={styles.score}>score:{score}点</h2>
 
@@ -88,7 +89,7 @@ const QuestionsPage = () => {
     }
 
     //リロードするやつ、使うかどうかわからん
-    const reload = () =>{
+    const reload = () => {
         window.location.reload();
     }
     //問題を表示するする
@@ -114,24 +115,28 @@ const QuestionsPage = () => {
             choice = (shuffleArray([quizList[count].secAnS, quizList[count].secS, quizList[count].secT, quizList[count].secF]));
             setDisplayText(
                 <div>
-                    <h1 className={styles.title}>{quizList[count].title}</h1>
-                    <h2 className={styles.questions}>問{count + 1}:{quizList[count].question}</h2>
+                    {/*<h1 className={styles.title}>{quizList[count].title}</h1>*/}
+                    <h1 className={styles.title}>問{count + 1}:{quizList[count].question}</h1>
+                    {/*<h2 className={styles.questions}>問{count + 1}:{quizList[count].question}</h2>*/}
                     <h2 className={styles.score}>score:{score}点</h2>
                     <div className={styles.buttons}>
                         <div>
                             <button onClick={() => checkAnswer(choice[0])}
-                                    className={styles.button}>{choice[0]}</button>
+                                    className={styles.btn}>{choice[0]}</button>
+                        </div>
+                        <div>
                             <button onClick={() => checkAnswer(choice[1])}
-                                    className={styles.button}>{choice[1]}</button>
-
+                                    className={styles.btn}>{choice[1]}</button>
                         </div>
                         <div>
                             <button onClick={() => checkAnswer(choice[2])}
-                                    className={styles.button}>{choice[2]}</button>
-                            <button onClick={() => checkAnswer(choice[3])}
-                                    className={styles.button}>{choice[3]}</button>
+                                    className={styles.btn}>{choice[2]}</button>
                         </div>
-                        <button onClick={() => checkAnswer(false)} className={styles.button}>
+                        <div>
+                            <button onClick={() => checkAnswer(choice[3])}
+                                    className={styles.btn}>{choice[3]}</button>
+                        </div>
+                        <button onClick={() => checkAnswer(false)} className={styles.btn}>
                             スキップ
                         </button>
                     </div>

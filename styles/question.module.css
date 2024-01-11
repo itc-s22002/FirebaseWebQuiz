@@ -8,11 +8,53 @@
 
 }
 
+.btn{
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.5;
+    position: relative;
+    display: inline-block;
+    padding: 1rem 4rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+
+    margin: 10px 60px;
+
+
+    border-bottom: 5px solid #363636;
+
+    border-radius: 100vh;
+
+    align-items: center;
+}
+
+.btn--hover{
+    margin-top: 3px;
+    border-bottom: 2px solid #363636;
+}
+
+/*.fa-position-right {*/
+/*    position: absolute;*/
+/*    top: calc(50% - .5em);*/
+/*    right: 1rem;*/
+/*}*/
+
+
 
 .buttons{
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
+    /*flex-direction: row;*/
+    /*justify-content: space-between;*/
+    /*gap: 10px;*/
     position: absolute;
     left: 50%;
     transform: translate(-50%);
