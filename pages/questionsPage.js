@@ -81,7 +81,7 @@ const QuestionsPage = () => {
             <div>
                 <h1 className={styles.title}>{ans}</h1>
                 <h2 className={styles.questions}>答え:{quizList[count].secAnS}</h2>
-                <h2 className={styles.questions}>問{count + 1}解説:{quizList[count].explanation}</h2>
+                <h2 className={styles.questions}>解説:{quizList[count].explanation}</h2>
                 <h2 className={styles.score}>score:{score}点</h2>
 
             </div>
@@ -123,16 +123,14 @@ const QuestionsPage = () => {
                         <div>
                             <button onClick={() => checkAnswer(choice[0])}
                                     className={styles.btn}>{choice[0]}</button>
-                        </div>
-                        <div>
+
                             <button onClick={() => checkAnswer(choice[1])}
                                     className={styles.btn}>{choice[1]}</button>
                         </div>
                         <div>
                             <button onClick={() => checkAnswer(choice[2])}
                                     className={styles.btn}>{choice[2]}</button>
-                        </div>
-                        <div>
+
                             <button onClick={() => checkAnswer(choice[3])}
                                     className={styles.btn}>{choice[3]}</button>
                         </div>
