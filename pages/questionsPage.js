@@ -1,5 +1,5 @@
 import app from '../FirebaseConfig'
-import {getFirestore, collection, getDocs} from "firebase/firestore";
+import {getFirestore, collection, getDocs,where} from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import {useRouter} from 'next/router';
 import styles from "../styles/question.module.css";
@@ -39,6 +39,7 @@ const QuestionsPage = () => {
     const [inputGenre, setInputGenre] = useState('quiz');
 
     const genres = [
+        "test",
         "quiz",
         "foodAndCooking",
         "generalKnowledge",

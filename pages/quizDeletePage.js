@@ -1,4 +1,4 @@
-import {collection, doc, deleteDoc, getFirestore, getDocs} from "firebase/firestore"
+import {collection, doc, deleteDoc, getFirestore, getDocs, updateDoc} from "firebase/firestore"
 import React, {useEffect, useState} from "react";
 import app from "../FirebaseConfig";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -19,9 +19,10 @@ const DeleteDataPage = () => {
     const [showModal, setShowModal] = useState(false);
     const router = useRouter();
     const [user, setUser] = useState(null);
-    const [inputGenre, setInputGenre] = useState('art');
+    const [inputGenre, setInputGenre] = useState('test');
 
     const genres = [
+        "test",
         "art",
         "foodAndCooking",
         "generalKnowledge",
@@ -74,9 +75,13 @@ const DeleteDataPage = () => {
     //消去機能
     const handleDelete = async () => {
         try {
-            // コレクション内のドキュメントを削除
-            await deleteDoc(doc(collection(firestore, inputGenre), quizTitle));
+            const docRef = doc(firestore,inputGenre,quizTitle)
+            await updateDoc(docRef, {deleteFlag: 1})
+
             console.log(`${quizTitle} Delete completion`)
+
+
+
         } catch (error) {
             console.error('Delete error:', error);
             console.log("incomplete")
