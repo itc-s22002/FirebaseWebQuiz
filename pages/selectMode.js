@@ -25,7 +25,7 @@ const selectMode = () => {
 
     return(
         <div>
-            <Header title={"選んでください"}/>
+            <Header title={"問題設定"}/>
             <div className={styles.buttons}>
                 <div>
                     <button onClick={routersCreatePage} className={styles.button}>問題の作成</button>
@@ -33,9 +33,9 @@ const selectMode = () => {
                 <div>
                     <button onClick={routersDeletePage} className={styles.button}>問題の削除</button>
                 </div>
-                <div>
-                    <button onClick={routersUpdatePage} className={styles.button}>問題の編集</button>
-                </div>
+                {/*<div>*/}
+                {/*    <button onClick={routersUpdatePage} className={styles.button}>問題の編集</button>*/}
+                {/*</div>*/}
                 <div>
                     <button onClick={routersStartPage} className={styles.button}>スタートに戻る</button>
                 </div>

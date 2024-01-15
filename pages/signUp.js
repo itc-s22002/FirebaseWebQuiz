@@ -18,7 +18,7 @@ const AddUserPage = () => {
         try {
             // FirebaseのcreateUserWithEmailAndPasswordメソッドを使用してユーザーを登録
             await createUserWithEmailAndPassword(auth, email, password);
-            router.push('/login'); // 登録成功後、ログインページにリダイレクト
+            await router.push('/login'); // 登録成功後、ログインページにリダイレクト
             console.log("comp")
         } catch (error) {
             console.error('Registration error:', error);

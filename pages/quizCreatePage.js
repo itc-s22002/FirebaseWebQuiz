@@ -15,6 +15,7 @@ const AddQuiz = () => {
     const [user, setUser] = useState(null);
 
     const genres = [
+        "test",
         "art",
         "foodAndCooking",
         "generalKnowledge",
