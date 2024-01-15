@@ -105,7 +105,8 @@ const QuestionsPage = () => {
             console.log("not data")
             setDisplayText(
                 <div className={styles.buttons}>
-                    <h1 className={styles.title}>{score}点</h1>
+                    <h1 className={styles.title}>あなたの点数</h1>
+                    <h1 className={styles.scores}>{score}点</h1>
                     <button className={styles.button} onClick={() => router.push("/startPage").then(r => true)}>
                         完了
                     </button>
@@ -123,19 +124,19 @@ const QuestionsPage = () => {
                     <div className={styles.buttons}>
                         <div>
                             <button onClick={() => checkAnswer(choice[0])}
-                                    className={styles.btn}>{choice[0]}</button>
+                                    className={styles.button}>{choice[0]}</button>
 
                             <button onClick={() => checkAnswer(choice[1])}
-                                    className={styles.btn}>{choice[1]}</button>
+                                    className={styles.button}>{choice[1]}</button>
                         </div>
                         <div>
                             <button onClick={() => checkAnswer(choice[2])}
-                                    className={styles.btn}>{choice[2]}</button>
+                                    className={styles.button}>{choice[2]}</button>
 
                             <button onClick={() => checkAnswer(choice[3])}
-                                    className={styles.btn}>{choice[3]}</button>
+                                    className={styles.button}>{choice[3]}</button>
                         </div>
-                        <button onClick={() => checkAnswer(false)} className={styles.btn}>
+                        <button onClick={() => checkAnswer(false)} className={styles.button}>
                             スキップ
                         </button>
                     </div>

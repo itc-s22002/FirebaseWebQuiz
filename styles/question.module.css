@@ -1,9 +1,9 @@
 .button{
-    width: 300px;
+    width: 400px;
     height: 60px;
     font-size: 30px;
     border-radius: 15px;
-    margin: 20px 60px;
+    margin: 20px;
     align-items: center;
 
 }
@@ -55,6 +55,7 @@
     /*flex-direction: row;*/
     /*justify-content: space-between;*/
     /*gap: 10px;*/
+
     position: absolute;
     left: 50%;
     transform: translate(-50%);
@@ -68,6 +69,13 @@
 .title{
     margin: 20px;
     text-align: center;
+
+}
+
+.scores{
+    margin: 20px;
+    text-align: center;
+    font-size: 100px;
 
 }
 

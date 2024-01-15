@@ -33,9 +33,9 @@ const selectMode = () => {
                 <div>
                     <button onClick={routersDeletePage} className={styles.button}>問題の削除</button>
                 </div>
-                <div>
-                    <button onClick={routersUpdatePage} className={styles.button}>問題の編集</button>
-                </div>
+                {/*<div>*/}
+                {/*    <button onClick={routersUpdatePage} className={styles.button}>問題の編集</button>*/}
+                {/*</div>*/}
                 <div>
                     <button onClick={routersStartPage} className={styles.button}>スタートに戻る</button>
                 </div>

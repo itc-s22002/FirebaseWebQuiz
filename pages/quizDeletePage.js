@@ -78,6 +78,8 @@ const DeleteDataPage = () => {
             const docRef = doc(firestore,inputGenre,quizTitle)
             await updateDoc(docRef, {deleteFlag: 1})
 
+            await deleteDoc(doc(collection(firestore, inputGenre), quizTitle));
+
             console.log(`${quizTitle} Delete completion`)
 
 
@@ -102,7 +104,11 @@ const DeleteDataPage = () => {
         return (
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title></Modal.Title>
+                    <Modal.Title>
+                        <p style={{color: "black"}}>
+                            Title:{quizTitle}
+                        </p>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p style={{color: "black"}}>削除しますか。</p>
