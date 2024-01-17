@@ -104,115 +104,119 @@ const AddQuiz = () => {
     //ログインしているか確認
     if (user) {
         return (
-            <div className={styles.parentContainer}>
-                <Header title="クイズ作成"/>
-                <div className={styles.items}>
-                    <div className="container mt-5">
-                        <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
-                        <select className="form-select" id="exampleSelect" value={inputGenre}
-                                onChange={handleSelectGenre}>
-                            {genres.map((gen, index) =>
-                                <option key={index} value={gen}>{gen}</option>
-                            )}
-                        </select>
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            タイトル入力
-                        </label>
-                        <input
-                            type="text"
-                            value={inputValue}
-                            onChange={handleInputChange}
-                            className={styles.inputForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            問題文入力
-                        </label>
-                        <textarea
-                            value={quizData.question}
-                            onChange={(e) => setQuizData({...quizData, question: e.target.value})}
-                            placeholder="コメントを入力"
-                            className={styles.textareaForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            正答
-                        </label>
-                        <input
-                            type="text"
-                            value={quizData.secAnS}
-                            onChange={(e) => setQuizData({...quizData, secAnS: e.target.value})}
-                            className={styles.inputForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            選択肢1
-                        </label>
-                        <input
-                            type="text"
-                            value={quizData.secF}
-                            onChange={(e) => setQuizData({...quizData, secF: e.target.value})}
-                            className={styles.inputForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            選択肢2
-                        </label>
-                        <input
-                            type="text"
-                            value={quizData.secS}
-                            onChange={(e) => setQuizData({...quizData, secS: e.target.value})}
-                            className={styles.inputForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            選択肢3
-                        </label>
-                        <input
-                            type="text"
-                            value={quizData.secT}
-                            onChange={(e) => setQuizData({...quizData, secT: e.target.value})}
-                            className={styles.inputForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            解説文入力
-                        </label>
-                        <textarea
-                            value={quizData.explanation}
-                            onChange={(e) => setQuizData({...quizData, explanation: e.target.value})}
-                            placeholder="コメントを入力"
-                            className={styles.textareaForm}
-                        />
-                    </div>
-                    <div className={styles.buttons}>
-                        <div>
-                            <button
-                                onClick={addDocumentToFirestore}
-                                className={styles.button}
-                            >
-                                作成
-                            </button>
+            <>
+                <Header/>
+                <div className="container">
+                    <div className="">
+                        <h4 className="mb-3">問題作成</h4>
+                        <div className="mb-3">
+                            <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
+                            <select className="form-select" id="exampleSelect" value={inputGenre}
+                                    onChange={handleSelectGenre}>
+                                {genres.map((gen, index) =>
+                                    <option key={index} value={gen}>{gen}</option>
+                                )}
+                            </select>
                         </div>
-                        <div>
-                            <button
-                                onClick={routers}
-                                className={styles.button}
-                            >
-                                完了
-                            </button>
-                        </div>
+                        <form className="needs-validation" noValidate="">
+                            <div className="row g-3">
+                                <div className="col-12">
+                                    <label htmlFor="title" className="form-label">タイトル入力</label>
+                                    <input type="text" className="form-control" id="title" required="" value={inputValue} onChange={handleInputChange}/>
+                                    <div className="invalid-feedback">
+                                        Please enter your shipping address.
+                                    </div>
+                                </div>
+
+                                <div className="col-12">
+                                    <label htmlFor="question" className="form-label">問題文入力 </label>
+                                    <textarea
+                                        className="form-control"
+                                        placeholder="問題文を入力してください"
+                                        id="question"
+                                        style={{height: 100}}
+                                        onChange={(e) => setQuizData({...quizData, question: e.target.value})}
+                                        value={quizData.question}
+                                    />
+                                    <div className="invalid-feedback">
+                                        Please enter a valid email address for shipping updates.
+                                    </div>
+                                </div>
+
+                                <div className="col-12">
+                                    <label htmlFor="secAns" className="form-label">正答</label>
+                                    <input type="text"
+                                           className="form-control"
+                                           id="secAns"
+                                           required=""
+                                           onChange={(e) => setQuizData({...quizData, secAnS: e.target.value})}
+                                           value={quizData.secAnS}
+                                    />
+                                    <div className="invalid-feedback">
+                                        Please enter your shipping address.
+                                    </div>
+                                </div>
+
+                                <div className="col-12">
+                                    <label htmlFor="sec1" className="form-label">選択肢１ </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="sec1"
+                                        onChange={(e) => setQuizData({...quizData, secF: e.target.value})}
+                                        value={quizData.secF}
+                                    />
+                                </div>
+
+                                <div className="col-12">
+                                    <label htmlFor="sec2" className="form-label">選択肢２ </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="sec2"
+                                        onChange={(e) => setQuizData({...quizData, secS: e.target.value})}
+                                        value={quizData.secS}
+                                    />
+                                </div>
+                                <div className="col-12">
+                                    <label htmlFor="sec3" className="form-label">選択肢３ </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="sec3"
+                                        onChange={(e) => setQuizData({...quizData, secT: e.target.value})}
+                                        value={quizData.secT}
+                                    />
+                                </div>
+
+                                <div className="col-12">
+                                    <label htmlFor="explanation" className="form-label">解説入力 </label>
+                                    <textarea
+                                        className="form-control"
+                                        placeholder="解説文を入力してください"
+                                        id="explanation"
+                                        style={{height: 100}}
+                                        onChange={(e) => setQuizData({...quizData, explanation: e.target.value})}
+                                        value={quizData.explanation}
+                                    />
+                                    <div className="invalid-feedback">
+                                        Please enter a valid email address for shipping updates.
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <hr className="col-12"/>
+                            <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
+                                 style={{marginBottom: 30}}>
+                                <button type="button" className="btn btn-primary" onClick={addDocumentToFirestore}>作成</button>
+                                <button type="button" className="btn btn-primary" onClick={routers}>完了</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </div>
+            </>
+
         );
     } else {
         return <p>Loading...</p>;

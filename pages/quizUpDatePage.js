@@ -249,6 +249,7 @@ const UpDataQuiz = () => {
                     </div>
                 </ul>
             </div>
+
         );
     } else {
         return <p>Loading...</p>;

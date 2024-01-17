@@ -39,45 +39,44 @@ const DropDownList = () => {
         router.push("/signUp").then(r => true)
     }
 
-    const logout = async  () =>{
+    const logout = async () => {
         try {
             await auth.signOut();
             console.log('User logged out');
-        }catch (error){
+        } catch (error) {
             console.error('Error logging out:', error);
         }
     }
 
     if (user) {
         return (
-            <div>
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        {user.email}
-                    </Dropdown.Toggle>
+            <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    {user.email}
+                </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={routersLogin}>ログイン</Dropdown.Item>
-                        <Dropdown.Item onClick={routersSinUp}>新規登録</Dropdown.Item>
-                        <Dropdown.Item onClick={logout}>ログアウト</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </div>
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={routersLogin}>ログイン</Dropdown.Item>
+                    <Dropdown.Item onClick={routersSinUp}>新規登録</Dropdown.Item>
+                    <Dropdown.Item onClick={logout}>ログアウト</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+
         );
-    }else {
+    } else {
         return (
-            <div>
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        ログインしろし
-                    </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={routersLogin}>ログイン</Dropdown.Item>
-                        <Dropdown.Item onClick={routersSinUp}>新規登録</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </div>
+            <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    ログインしろし
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={routersLogin}>ログイン</Dropdown.Item>
+                    <Dropdown.Item onClick={routersSinUp}>新規登録</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+
         );
     }
 };
@@ -90,22 +89,27 @@ const Header = ({title}) => {
     }
 
     return (
-        <div className={styles.spaceBetWeen}>
-            <Image
-                src={question}
-                alt=""
-                width={200}
-                height={200}
-                onClick={routers}
-            />
-            <div>
-                <h1 className={styles.title}>{title}</h1>
-            </div>
-            <div className={styles.item2}>
-                <DropDownList/>
-            </div>
-
+        <div className="container">
+            <header
+                className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+                <a className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                    <Image src={question}
+                           alt=""
+                           width={100}
+                           height={100}
+                           className="d-inline-block align-text-top"
+                           onClick={routers}
+                    />
+                    <span className="col-12 col-md-auto mb-2 align-items-center mb-md-0 text-white">
+                        <p className="fs-4">Q&select4</p>
+                    </span>
+                </a>
+                <div className="text-end">
+                    <DropDownList/>
+                </div>
+            </header>
         </div>
+
     )
 }
 
