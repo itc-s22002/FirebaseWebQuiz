@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import app from '../FirebaseConfig'
-import {collection, doc, getDocs, getFirestore, setDoc, updateDoc} from "firebase/firestore";
+import {collection, doc, getDocs, getFirestore, setDoc, updateDoc, getDoc} from "firebase/firestore";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {useRouter} from "next/router";
-import styles from "@/styles/quizUpPage.module.css";
+import styles from "../styles/quizUpPage.module.css";
 import {faPen} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Header from "@/components/header";
@@ -15,9 +15,12 @@ const UpDataQuiz = () => {
     const [user, setUser] = useState(null);
     const [quizList, setQuizList] = useState([]);
     const [inputGenre, setInputGenre] = useState('');
-    const [inputValue, setInputValue] = useState('----------');
+    const [inputValue, setInputValue] = useState('');
+    const [listOn, setListOn] = useState("")
+    const [quizTitle, setQuizTitle] = useState(null);
 
     const genres = [
+        "test",
         "art",
         "foodAndCooking",
         "generalKnowledge",
@@ -62,6 +65,32 @@ const UpDataQuiz = () => {
         fetchData();
     }, [inputGenre]);
 
+    const fetchQuizData = async () => {
+        try {
+            if (inputValue) {
+                const bookDocRef = doc(firestore, inputGenre, inputValue);
+                const querySnapshot = await getDoc(bookDocRef);
+
+                if (querySnapshot.exists()) {
+                    setQuizTitle(querySnapshot.data());
+                    console.log(quizTitle)
+                } else {
+                    console.log('Quiz not found');
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [inputGenre]);
+
+    useEffect(() => {
+        fetchQuizData();
+    }, [inputValue]);
+
     const quizTypeData = {
         title: inputValue,
         question: "",
@@ -72,7 +101,6 @@ const UpDataQuiz = () => {
         explanation: "",
         userId: ""
     }
-
 
     const [quizData, setQuizData] = useState(quizTypeData);
     const router = useRouter();
@@ -87,7 +115,6 @@ const UpDataQuiz = () => {
             const docRef = doc(firestore, inputGenre, inputValue);
             await updateDoc(docRef, quizData)
             console.log('Document written with Title: ', docRef.id);
-
 
             if (user) {
                 console.log('製作者', user.email)
@@ -105,6 +132,7 @@ const UpDataQuiz = () => {
     }
 
     const handleInputChange = (title, uid) => {
+        setListOn("")
         setInputValue(title);
         setQuizData({...quizData, title: title, userId: uid})
     };
@@ -112,7 +140,7 @@ const UpDataQuiz = () => {
     const checkUid = (quiz) => {
         if (quiz.userId === user.uid) {
             return (
-                <div key={quiz.id} className={styles.item}>
+                <div key={quiz.id}>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
                         {quiz.title}
                         <FontAwesomeIcon
@@ -131,125 +159,132 @@ const UpDataQuiz = () => {
 
     if (user) {
         return (
-            <div className={styles.parentContainer}>
-                <Header title={"クイズの更新"}/>
-                <div className="container mt-5">
-                    <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
-                    <select className="form-select" id="exampleSelect" value={inputGenre}
-                            onChange={handleSelectGenre}>
-                        {genres.map((gen, index) =>
-                            <option key={index} value={gen}>{gen}</option>
+            <>
+                <Header/>
+                <div className="container">
+                    <div className="">
+                        {quizTitle ? (
+                            <h4 className="mb-3">{quizTitle.question}</h4>
+                        ) : (
+                            <h4 className="mb-3">no</h4>
                         )}
-                    </select>
-                </div>
-                <ul className="list-group"
-                    style={{
-                        position: "absolute",
-                        left: "50%",
-                        transform: "translate(-50%)"
-                    }}>
-                    {quizList.map((quiz) => checkUid(quiz))}
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            変更するクイズ
-                        </label>
-                        <h1>{inputValue}</h1>
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            問題文入力
-                        </label>
-                        <textarea
-                            value={quizData.question}
-                            onChange={(e) => setQuizData({...quizData, question: e.target.value})}
-                            placeholder="コメントを入力"
-                            className={styles.textareaForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            正答
-                        </label>
-                        <input
-                            type="text"
-                            value={quizData.secAnS}
-                            onChange={(e) => setQuizData({...quizData, secAnS: e.target.value})}
-                            className={styles.inputForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            選択肢1
-                        </label>
-                        <input
-                            type="text"
-                            value={quizData.secF}
-                            onChange={(e) => setQuizData({...quizData, secF: e.target.value})}
-                            className={styles.inputForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            選択肢2
-                        </label>
-                        <input
-                            type="text"
-                            value={quizData.secS}
-                            onChange={(e) => setQuizData({...quizData, secS: e.target.value})}
-                            className={styles.inputForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            選択肢3
-                        </label>
-                        <input
-                            type="text"
-                            value={quizData.secT}
-                            onChange={(e) => setQuizData({...quizData, secT: e.target.value})}
-                            className={styles.inputForm}
-                        />
-                    </div>
-                    <div className={styles.item}>
-                        <label className={styles.labelName}>
-                            解説文入力
-                        </label>
-                        <textarea
-                            value={quizData.explanation}
-                            onChange={(e) => setQuizData({...quizData, explanation: e.target.value})}
-                            placeholder="コメントを入力"
-                            className={styles.textareaForm}
-                        />
-                    </div>
-                    {/*<div className={styles.item}>*/}
-                    {/*    <button*/}
-                    {/*        onClick={routers}*/}
-                    {/*        className={styles.button}*/}
-                    {/*    >*/}
-                    {/*        完了*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-                    <div className={styles.buttons}>
-                        <div>
-                            <button
-                                onClick={udDataDocumentToFirestore}
-                                className={styles.button}
-                            >
-                                作成
-                            </button>
+                        <h4 className="mb-3">問題編集</h4>
+                        <div className="mb-3">
+                            <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
+                            <select className="form-select" id="exampleSelect" value={inputGenre}
+                                    onChange={handleSelectGenre}>
+                                {genres.map((gen, index) =>
+                                    <option key={index} value={gen}>{gen}</option>
+                                )}
+                            </select>
                         </div>
                         <div>
-                            <button
-                                onClick={routers}
-                                className={styles.button}
-                            >
-                                完了
-                            </button>
+                            <ul className="list-group">
+                                {quizList.map((quiz) => checkUid(quiz))}
+                            </ul>
                         </div>
-                    </div>
-                </ul>
-            </div>
+                        {quizTitle ? (
+                            <>
+                                <div className="mb-3">
+                                    <label className={styles.labelName}>
+                                        変更するクイズ
+                                    </label>
+                                    <h1>{inputValue}</h1>
+                                </div>
+                                <form className="needs-validation" noValidate="">
+                                    <div className="row g-3">
+                                        {/*<div className="col-12">*/}
+                                        {/*    <label htmlFor="title" className="form-label">タイトル入力</label>*/}
+                                        {/*    <input type="text" className="form-control" id="title" required=""/>*/}
+                                        {/*    <div className="invalid-feedback">*/}
+                                        {/*        Please enter your shipping address.*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
 
+                                        <div className="col-12">
+                                            <label htmlFor="question" className="form-label">問題文入力</label>
+                                            <textarea
+                                                className="form-control"
+                                                placeholder= ""
+                                                id="question"
+                                                style={{height: 100}}
+                                                onChange={(e) => setQuizData({...quizData, question: e.target.value})}
+                                                value={quizData.question}
+
+                                            > {quizTitle.question} </textarea>
+                                            <div className="invalid-feedback">
+                                                Please enter a valid email address for shipping updates.
+                                            </div>
+                                        </div>
+
+                                        <div className="col-12">
+                                            <label htmlFor="secAns" className="form-label">正答</label>
+                                            <input type="text" className="form-control" id="secAns"
+                                                   placeholder=""
+                                                   required=""
+                                                   onChange={(e) => setQuizData({...quizData, secAnS: e.target.value})}
+                                                   value={quizData.secAnS}
+                                            />
+                                            <div className="invalid-feedback">
+                                                Please enter your shipping address.
+                                            </div>
+                                        </div>
+
+                                        <div className="col-12">
+                                            <label htmlFor="sec1" className="form-label">選択肢１ </label>
+                                            <input type="text" className="form-control" id="sec1"
+                                                   onChange={(e) => setQuizData({...quizData, secF: e.target.value})}
+                                                   value={quizData.secF}
+                                            />
+                                        </div>
+
+                                        <div className="col-12">
+                                            <label htmlFor="sec2" className="form-label">選択肢２ </label>
+                                            <input type="text" className="form-control" id="sec2"
+                                                   onChange={(e) => setQuizData({...quizData, secS: e.target.value})}
+                                                   value={quizData.secS}/>
+                                        </div>
+                                        <div className="col-12">
+                                            <label htmlFor="sec3" className="form-label">選択肢３ </label>
+                                            <input type="text" className="form-control" id="sec3"
+                                                   onChange={(e) => setQuizData({...quizData, secT: e.target.value})}
+                                                   value={quizData.secT}/>
+                                        </div>
+
+                                        <div className="col-12">
+                                            <label htmlFor="explanation" className="form-label">解説入力 </label>
+                                            <textarea
+                                                className="form-control"
+                                                placeholder="解説文を入力してください"
+                                                id="explanation"
+                                                style={{height: 100}}
+                                                onChange={(e) => setQuizData({
+                                                    ...quizData,
+                                                    explanation: e.target.value
+                                                })}
+                                                value={quizData.explanation}
+                                            />
+                                            <div className="invalid-feedback">
+                                                Please enter a valid email address for shipping updates.
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <hr className="col-12"/>
+                                    <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
+                                         style={{marginBottom: 30}}>
+                                        <button type="button" className="btn btn-light"
+                                                onChange={udDataDocumentToFirestore}>編集
+                                        </button>
+                                        <button type="button" className="btn btn-light" onChange={routers}>完了</button>
+                                    </div>
+                                </form>
+                            </>
+                        ) : (<p></p>)}
+                    </div>
+                </div>
+            </>
         );
     } else {
         return <p>Loading...</p>;

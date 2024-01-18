@@ -209,8 +209,8 @@ const AddQuiz = () => {
                             <hr className="col-12"/>
                             <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
                                  style={{marginBottom: 30}}>
-                                <button type="button" className="btn btn-primary" onClick={addDocumentToFirestore}>作成</button>
-                                <button type="button" className="btn btn-primary" onClick={routers}>完了</button>
+                                <button type="button" className="btn btn-light" onClick={addDocumentToFirestore}>作成</button>
+                                <button type="button" className="btn btn-light" onClick={routers}>完了</button>
                             </div>
                         </form>
                     </div>

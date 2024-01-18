@@ -14,17 +14,15 @@ const StartPage = () => {
     }
 
     return (
-        <div>
+        <>
             <Header title={"四択クイズ"}/>
-            <div className={styles.buttons}>
-                <div>
-                    <button onClick={routersQuestionModePage} className={styles.button}>スタート</button>
-                </div>
-                <div>
-                    <button onClick={routersSelectModePage} className={styles.button}>問題設定</button>
+            <div className="container">
+                <div className="d-grid gap-2 col-6 mx-auto">
+                    <button type="button" onClick={routersQuestionModePage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>スタート</button>
+                    <button type="button" onClick={routersSelectModePage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>問題設定</button>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

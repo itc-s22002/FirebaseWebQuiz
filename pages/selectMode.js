@@ -24,23 +24,17 @@ const selectMode = () => {
     }
 
     return(
-        <div>
+        <>
             <Header title={"問題設定"}/>
-            <div className={styles.buttons}>
-                <div>
-                    <button onClick={routersCreatePage} className={styles.button}>問題の作成</button>
-                </div>
-                <div>
-                    <button onClick={routersDeletePage} className={styles.button}>問題の削除</button>
-                </div>
-                <div>
-                    <button onClick={routersUpdatePage} className={styles.button}>問題の編集</button>
-                </div>
-                <div>
-                    <button onClick={routersStartPage} className={styles.button}>スタートに戻る</button>
+            <div className="container">
+                <div className="d-grid gap-2 col-6 mx-auto">
+                    <button type="button" onClick={routersCreatePage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>問題の作成</button>
+                    <button type="button" onClick={routersDeletePage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>問題の削除</button>
+                    <button type="button" onClick={routersUpdatePage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>問題の編集</button>
+                    <button type="button" onClick={routersStartPage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>スタートに戻る</button>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

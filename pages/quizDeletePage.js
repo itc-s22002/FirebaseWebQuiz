@@ -75,13 +75,12 @@ const DeleteDataPage = () => {
     //消去機能
     const handleDelete = async () => {
         try {
-            const docRef = doc(firestore,inputGenre,quizTitle)
+            const docRef = doc(firestore, inputGenre, quizTitle)
             await updateDoc(docRef, {deleteFlag: 1})
 
             await deleteDoc(doc(collection(firestore, inputGenre), quizTitle));
 
             console.log(`${quizTitle} Delete completion`)
-
 
 
         } catch (error) {
@@ -131,7 +130,7 @@ const DeleteDataPage = () => {
     const checkUid = (quiz) => {
         if (quiz.userId === user.uid) {
             return (
-                <div key={quiz.id} className={styles.item}>
+                <div key={quiz.id}>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
                         {quiz.title}
                         <FontAwesomeIcon
@@ -162,33 +161,30 @@ const DeleteDataPage = () => {
 
 
     return (
-        <div className={styles.parentContainer}>
+        <>
             <Header title={"クイズの消去"}/>
-                <div className="container mt-5">
-                    <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
-                    <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>
-                        {genres.map((gen, index) =>
-                            <option key={index} value={gen}>{gen}</option>
-                        )}
-                    </select>
-                </div>
-                <ul className="list-group"
-                    style={{
-                        position: "absolute",
-                        left: "50%",
-                        transform: "translate(-50%)"
-                    }}>
+            <div className="container">
+                <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
+                <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>
+                    {genres.map((gen, index) =>
+                        <option key={index} value={gen}>{gen}</option>
+                    )}
+                </select>
+                <div className="list-group">
                     {quizList.map((quiz) => checkUid(quiz))}
-                    <div>
-                        <button
-                            onClick={routers}
-                            className={styles.button}
-                        >
-                            完了
-                        </button>
-                    </div>
-                </ul>
-        </div>
+                </div>
+                <div className="d-grid gap-2 col-6 mx-auto">
+                    <button
+                        onClick={routers}
+                        className="btn btn-light"
+                        type="button"
+                        style={{margin:10}}
+                    >
+                        完了
+                    </button>
+                </div>
+            </div>
+        </>
     );
 };
 
