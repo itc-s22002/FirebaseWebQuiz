@@ -1,6 +1,7 @@
 import {useRouter} from 'next/router';
 import styles from "../styles/selectMode.module.css"
 import Header from "@/components/header";
+import React from "react";
 
 
 
@@ -25,13 +26,25 @@ const selectMode = () => {
 
     return(
         <>
-            <Header title={"問題設定"}/>
+            <Header/>
             <div className="container">
-                <div className="d-grid gap-2 col-6 mx-auto">
-                    <button type="button" onClick={routersCreatePage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>問題の作成</button>
-                    <button type="button" onClick={routersDeletePage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>問題の削除</button>
-                    <button type="button" onClick={routersUpdatePage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>問題の編集</button>
-                    <button type="button" onClick={routersStartPage} className="btn btn-light" style={{margin:10,height:75,fontSize:20}}>スタートに戻る</button>
+                <div className="d-grid gap-2 col-10 mx-auto">
+                    <h4 className="mb-3">問題設定</h4>
+                    <label>
+                        selectMode
+                    </label>
+                    <button type="button" onClick={routersCreatePage} className="btn btn-light"
+                            style={{margin: 10, height: 75, fontSize: 20,}}>問題の作成
+                    </button>
+                    <button type="button" onClick={routersDeletePage} className="btn btn-light"
+                            style={{margin: 10, height: 75, fontSize: 20}}>問題の削除
+                    </button>
+                    <button type="button" onClick={routersUpdatePage} className="btn btn-light"
+                            style={{margin: 10, height: 75, fontSize: 20}}>問題の編集
+                    </button>
+                    <button type="button" onClick={routersStartPage} className="btn btn-light"
+                            style={{margin: 10, height: 75, fontSize: 20}}> スタートに戻る
+                    </button>
                 </div>
             </div>
         </>

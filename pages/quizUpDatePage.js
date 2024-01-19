@@ -3,10 +3,10 @@ import app from '../FirebaseConfig'
 import {collection, doc, getDocs, getFirestore, setDoc, updateDoc, getDoc} from "firebase/firestore";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {useRouter} from "next/router";
-import styles from "../styles/quizUpPage.module.css";
 import {faPen} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Header from "@/components/header";
+import {Button, Modal} from "react-bootstrap";
 
 const firestore = getFirestore(app)
 const auth = getAuth(app)
@@ -14,9 +14,8 @@ const auth = getAuth(app)
 const UpDataQuiz = () => {
     const [user, setUser] = useState(null);
     const [quizList, setQuizList] = useState([]);
-    const [inputGenre, setInputGenre] = useState('');
+    const [inputGenre, setInputGenre] = useState('test');
     const [inputValue, setInputValue] = useState('');
-    const [listOn, setListOn] = useState("")
     const [quizTitle, setQuizTitle] = useState(null);
 
     const genres = [
@@ -147,7 +146,6 @@ const UpDataQuiz = () => {
     }
 
     const handleInputChange = (title, uid) => {
-        setListOn("")
         setInputValue(title);
         setQuizData({...quizData, title: title, userId: uid})
     };
@@ -171,24 +169,54 @@ const UpDataQuiz = () => {
         }
 
     }
+
+    ///
+    const [showModal, setShowModal] = useState(false);
+
+    const onModal = () => {
+        setShowModal(true)
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+    const SmallModal = () => {const handleCloseModal = () => {
+        setShowModal(false);
+    };
+        return (
+            <Modal show={showModal} onHide={handleCloseModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <p style={{color: "black"}}>
+                            Title:{quizTitle}
+                        </p>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p style={{color: "black"}}>削除しますか。</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary">
+                        削除
+                    </Button>
+                    <Button variant="secondary">
+                        閉じる
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+        );
+    };
+
+    ///
+
+
     if (user) {
         return (
             <>
                 <Header/>
                 <div className="container">
                     <div className="">
-                        {quizTitle ? (
-                            <>
-                                <h4 className="mb-3">{quizTitle.question}</h4>
-                                <h4 className="mb-3">{quizTitle.secAnS}</h4>
-                                <h4 className="mb-3">{quizTitle.secF}</h4>
-                                <h4 className="mb-3">{quizTitle.secS}</h4>
-                                <h4 className="mb-3">{quizTitle.secT}</h4>
-                                <h4 className="mb-3">{quizTitle.explanation}</h4>
-                            </>
-                        ) : (
-                            <h4 className="mb-3">no</h4>
-                        )}
                         <h4 className="mb-3">問題編集</h4>
                         <div className="mb-3">
                             <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
@@ -206,19 +234,19 @@ const UpDataQuiz = () => {
                         </div>
                         {quizTitle ? (
                             <>
-                                <div className="mb-3">
-                                    <label className={styles.labelName}>
-                                        変更するクイズ
-                                    </label>
-                                    <h1>{inputValue}</h1>
-                                </div>
                                 <form className="needs-validation" noValidate="">
                                     <div className="row g-3">
+                                        <div className="col-12">
+                                            <label className="form-label">
+                                                変更するクイズ
+                                            </label>
+                                            <h1>{inputValue}</h1>
+                                        </div>
                                         <div className="col-12">
                                             <label htmlFor="question" className="form-label">問題文入力</label>
                                             <textarea
                                                 className="form-control"
-                                                placeholder= ""
+                                                placeholder=""
                                                 id="question"
                                                 style={{height: 100}}
                                                 onChange={(e) => setQuizData({...quizData, question: e.target.value})}
@@ -292,6 +320,7 @@ const UpDataQuiz = () => {
                                         </button>
                                         <button type="button" className="btn btn-light" onClick={routers}>完了</button>
                                     </div>
+                                    <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
                                 </form>
                             </>
                         ) : (<p></p>)}

@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import app from "../FirebaseConfig";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTrashCan} from '@fortawesome/free-solid-svg-icons';
-import styles from '../styles/quizDelete.module.css'
 import {useRouter} from "next/router";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {Modal, Button} from 'react-bootstrap';
@@ -164,21 +163,26 @@ const DeleteDataPage = () => {
         <>
             <Header title={"クイズの消去"}/>
             <div className="container">
-                <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
-                <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>
-                    {genres.map((gen, index) =>
-                        <option key={index} value={gen}>{gen}</option>
-                    )}
-                </select>
-                <div className="list-group">
-                    {quizList.map((quiz) => checkUid(quiz))}
+                <h4 className="mb-3">問題消去</h4>
+                <div className="mb-3">
+                    <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
+                    <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>
+                        {genres.map((gen, index) =>
+                            <option key={index} value={gen}>{gen}</option>
+                        )}
+                    </select>
+                </div>
+                <div>
+                    <ul className="list-group">
+                        {quizList.map((quiz) => checkUid(quiz))}
+                    </ul>
                 </div>
                 <div className="d-grid gap-2 col-6 mx-auto">
                     <button
                         onClick={routers}
                         className="btn btn-light"
                         type="button"
-                        style={{margin:10}}
+                        style={{margin: 10}}
                     >
                         完了
                     </button>

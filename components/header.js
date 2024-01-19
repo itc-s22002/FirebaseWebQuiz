@@ -92,7 +92,7 @@ const Header = ({title}) => {
         <div className="container">
             <header
                 className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                <a className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <a className="d-flex align-items-center mb-4 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                     <Image src={question}
                            alt=""
                            width={100}
@@ -100,11 +100,11 @@ const Header = ({title}) => {
                            className="d-inline-block align-text-top"
                            onClick={routers}
                     />
-                    <span className="col-12 col-md-auto mb-2 align-items-center mb-md-0 text-white">
-                        <p className="fs-4">Q&select4</p>
+                    <span className="fs-4 text-white">
+                        Q&select4
                     </span>
                 </a>
-                <div className="text-end">
+                <div className="text-end ms-4">
                     <DropDownList/>
                 </div>
             </header>
