@@ -87,10 +87,6 @@ const UpDataQuiz = () => {
         fetchData();
     }, [inputGenre]);
 
-    useEffect(() => {
-        fetchQuizData();
-    }, [inputValue]);
-
     const quizTypeData = {
         title: inputValue,
         question: "",
@@ -102,8 +98,27 @@ const UpDataQuiz = () => {
         userId: ""
     }
 
+    useEffect(() => {
+        fetchQuizData();
+    }, [inputValue]);
+
+    useEffect(() => {
+        if (quizTitle) {
+            setQuizData({
+                question: quizTitle.question,
+                secAnS: quizTitle.secAnS,
+                secF: quizTitle.secF,
+                secS: quizTitle.secS,
+                secT: quizTitle.secT,
+                explanation: quizTitle.explanation,
+            })
+        }
+    },[quizTitle])
+
+
     const [quizData, setQuizData] = useState(quizTypeData);
     const router = useRouter();
+
 
     //モード選択に戻る
     const routers = () => {
@@ -156,7 +171,6 @@ const UpDataQuiz = () => {
         }
 
     }
-
     if (user) {
         return (
             <>
@@ -164,7 +178,14 @@ const UpDataQuiz = () => {
                 <div className="container">
                     <div className="">
                         {quizTitle ? (
-                            <h4 className="mb-3">{quizTitle.question}</h4>
+                            <>
+                                <h4 className="mb-3">{quizTitle.question}</h4>
+                                <h4 className="mb-3">{quizTitle.secAnS}</h4>
+                                <h4 className="mb-3">{quizTitle.secF}</h4>
+                                <h4 className="mb-3">{quizTitle.secS}</h4>
+                                <h4 className="mb-3">{quizTitle.secT}</h4>
+                                <h4 className="mb-3">{quizTitle.explanation}</h4>
+                            </>
                         ) : (
                             <h4 className="mb-3">no</h4>
                         )}
@@ -193,14 +214,6 @@ const UpDataQuiz = () => {
                                 </div>
                                 <form className="needs-validation" noValidate="">
                                     <div className="row g-3">
-                                        {/*<div className="col-12">*/}
-                                        {/*    <label htmlFor="title" className="form-label">タイトル入力</label>*/}
-                                        {/*    <input type="text" className="form-control" id="title" required=""/>*/}
-                                        {/*    <div className="invalid-feedback">*/}
-                                        {/*        Please enter your shipping address.*/}
-                                        {/*    </div>*/}
-                                        {/*</div>*/}
-
                                         <div className="col-12">
                                             <label htmlFor="question" className="form-label">問題文入力</label>
                                             <textarea
@@ -275,9 +288,9 @@ const UpDataQuiz = () => {
                                     <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
                                          style={{marginBottom: 30}}>
                                         <button type="button" className="btn btn-light"
-                                                onChange={udDataDocumentToFirestore}>編集
+                                                onClick={udDataDocumentToFirestore}>編集
                                         </button>
-                                        <button type="button" className="btn btn-light" onChange={routers}>完了</button>
+                                        <button type="button" className="btn btn-light" onClick={routers}>完了</button>
                                     </div>
                                 </form>
                             </>
