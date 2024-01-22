@@ -1,7 +1,11 @@
 import app from '../FirebaseConfig'
-import {getFirestore, collection, getDocs,where} from "firebase/firestore";
+import {getFirestore, collection, getDocs, where} from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import {useRouter} from 'next/router';
+import Image from "next/image";
+import batu from "./../images/mark_batsu.png"
+import maru from "./../images/mark_maru.png"
+
 import styles from "../styles/question.module.css";
 import Header from "@/components/header";
 
@@ -74,16 +78,35 @@ const QuestionsPage = () => {
         setCheckStart(true)
         if (quizList[count].secAnS === select) {
             setScore(score + 10)
-            ans = "正解"
+            ans =
+                <>
+                    <h1 className="mb-3 text-center" style={{margin: 5, fontSize: 40}}>
+                        <Image src={maru} alt="Image" className="mb-3 text-center" width={100} height={100}/>
+                        <br/>
+                        正解
+                    </h1>
+                </>
         } else {
-            ans = "不正解"
+            ans =
+                <>
+                    <h1 className="mb-3 text-center" style={{margin: 5, fontSize: 40}}>
+                        <Image src={batu} alt="Image" className="m1-2" width={100} height={100}/>
+                        <br/>
+                        不正解
+                    </h1>
+                </>
         }
         setDisplayText(
             <div>
-                <h1 className={styles.title}>{ans}</h1>
-                <h2 className={styles.questions}>答え:{quizList[count].secAnS}</h2>
-                <h2 className={styles.questions}>解説:{quizList[count].explanation}</h2>
-                <h2 className={styles.score}>score:{score}点</h2>
+                {ans}
+                <h2 className="mb-3"
+                    style={{margin: 10, fontSize: 40}}>答え : {quizList[count].secAnS}</h2>
+                <hr className="col-12"/>
+                <h2 className="mb-3"
+                    style={{margin: 10, fontSize: 40}}>解説 : {quizList[count].explanation}</h2>
+                {quizList[count].secAnS === select ? (
+                    <h2 className="text-end">score:{score + 10}点</h2>
+                ) : (<h2 className="text-end">score:{score}点</h2>)}
 
             </div>
         )
@@ -104,43 +127,58 @@ const QuestionsPage = () => {
         if (count === 10) {
             console.log("not data")
             setDisplayText(
-                <div className={styles.buttons}>
-                    <h1 className={styles.title}>あなたの点数</h1>
-                    <h1 className={styles.scores}>{score}点</h1>
-                    <button className={styles.button} onClick={() => router.push("/startPage").then(r => true)}>
-                        完了
-                    </button>
+                <div>
+                    <p className="mb-3 text-center" style={{margin: 10, fontSize: 40}}>あなたの点数</p>
+                    <p className="mb-3 text-center" style={{margin: 10, fontSize: 60}}>{score}点</p>
+                    <div className="d-grid gap-2 col-6 mx-auto">
+
+                        <button className="btn btn-light"
+                                type="button"
+                                style={{margin: 10}} onClick={() => router.push("/startPage").then(r => true)}>
+                            完了
+                        </button>
+                    </div>
                 </div>
             )
         } else {
             //シャッフル関数に選択肢をぶち込んで配列に突っ込む
             choice = (shuffleArray([quizList[count].secAnS, quizList[count].secS, quizList[count].secT, quizList[count].secF]));
             setDisplayText(
-                <div>
+                <>
                     {/*<h1 className={styles.title}>{quizList[count].title}</h1>*/}
-                    <h1 className={styles.title}>問{count + 1}:{quizList[count].question}</h1>
+                    <p className="mb-3 text-center"
+                       style={{margin: 10, fontSize: 40}}>問{count + 1}:{quizList[count].question}</p>
                     {/*<h2 className={styles.questions}>問{count + 1}:{quizList[count].question}</h2>*/}
-                    <h2 className={styles.score}>score:{score}点</h2>
-                    <div className={styles.buttons}>
-                        <div>
-                            <button onClick={() => checkAnswer(choice[0])}
-                                    className={styles.button}>{choice[0]}</button>
+                    <h2 className="text-end">score:{score}点</h2>
+                    <div className="w-100 btn-group" role="group" aria-label="Basic outlined example">
+                        <button onClick={() => checkAnswer(choice[0])}
+                                className="w-50 btn btn-light"
+                                type="button"
+                                style={{margin: 10, height: 100, fontSize: 30}}>{choice[0]}</button>
 
-                            <button onClick={() => checkAnswer(choice[1])}
-                                    className={styles.button}>{choice[1]}</button>
-                        </div>
-                        <div>
-                            <button onClick={() => checkAnswer(choice[2])}
-                                    className={styles.button}>{choice[2]}</button>
+                        <button onClick={() => checkAnswer(choice[1])}
+                                className="w-50 btn btn-light "
+                                type="button"
+                                style={{margin: 10, height: 100, fontSize: 30}}>{choice[1]}</button>
+                    </div>
+                    <div className="w-100 btn-group" role="group" aria-label="Basic outlined example">
+                        <button onClick={() => checkAnswer(choice[2])}
+                                className="w-50 btn btn-light "
+                                type="button"
+                                style={{margin: 10, height: 100, fontSize: 30}}>{choice[2]}</button>
 
-                            <button onClick={() => checkAnswer(choice[3])}
-                                    className={styles.button}>{choice[3]}</button>
-                        </div>
-                        <button onClick={() => checkAnswer(false)} className={styles.button}>
+                        <button onClick={() => checkAnswer(choice[3])}
+                                className="w-50 btn btn-light "
+                                type="button"
+                                style={{margin: 10, height: 100, fontSize: 30}}>{choice[3]}</button>
+                    </div>
+                    <div className="d-grid gap-2 col-6 mx-auto" style={{margin: 10}}>
+                        <button onClick={() => checkAnswer(false)} className="btn btn-light"
+                                type="button">
                             スキップ
                         </button>
                     </div>
-                </div>
+                </>
             )
 
         }
@@ -158,7 +196,7 @@ const QuestionsPage = () => {
     //ジャンルを選ぶメニュー
     const checkGenreMenu = () => {
         return (
-            <div className="container mt-5">
+            <div className="mb-3">
                 <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
                 <select className="form-select" id="exampleSelect" value={inputGenre}
                         onChange={handleSelectGenre}>
@@ -171,23 +209,33 @@ const QuestionsPage = () => {
     }
 
     return (
-        <div>
-            <Header title="一問一答"/>
-            <div>{displayText}</div>
-            {/*スタートページか判定し違っていたら何も表示しない*/}
-            {checkStart ? (
-                <div className={styles.buttons}>
-                    {checkStart2 && (
-                        <div>{checkGenreMenu()}</div>
-                    )}
-                    <button onClick={Questions} className={styles.button}>
-                        {buttonName}
-                    </button>
-                </div>
-            ) : (
-                <div></div>
-            )}
-        </div>
+        <>
+            <Header/>
+            <div className="container">
+                <h4 className="mb-3">四択クイズ</h4>
+                <div>{displayText}</div>
+                {/*スタートページか判定し違っていたら何も表示しない*/}
+                {checkStart ? (
+                    <div className="mb-3">
+                        {checkStart2 && (
+                            <div>{checkGenreMenu()}</div>
+                        )}
+                        <div className="d-grid gap-2 col-6 mx-auto">
+                            <button
+                                onClick={Questions}
+                                className="btn btn-light"
+                                type="button"
+                                style={{margin: 10}}
+                            >
+                                {buttonName}
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div></div>
+                )}
+            </div>
+        </>
     )
 }
 
