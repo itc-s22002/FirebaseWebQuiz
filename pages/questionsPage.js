@@ -5,8 +5,11 @@ import {useRouter} from 'next/router';
 import Image from "next/image";
 import batu from "./../images/mark_batsu.png"
 import maru from "./../images/mark_maru.png"
-
-import styles from "../styles/question.module.css";
+import grade1 from "./../images/grade1_taihenyoku.png"
+import grade2 from "./../images/grade2_yokudekimashita.png"
+import grade3 from "./../images/grade3_ganbarimashita.png"
+import grade4 from "./../images/grade4_mousukoshi.png"
+import grade5 from "./../images/grade5_ganbarimasyou.png"
 import Header from "@/components/header";
 
 
@@ -37,10 +40,11 @@ const QuestionsPage = () => {
     const [score, setScore] = useState(0)
     const [displayText, setDisplayText] = useState("");
     let choice = []
-    const [buttonName, setButtonName] = useState("Start")
+    const [buttonName, setButtonName] = useState("スタート")
     const [checkStart, setCheckStart] = useState(true);
     const [checkStart2, setCheckStart2] = useState(true);
     const [inputGenre, setInputGenre] = useState('quiz');
+    const [grade, setGrade] =useState("")
 
     const genres = [
         "test",
@@ -99,15 +103,19 @@ const QuestionsPage = () => {
         setDisplayText(
             <div>
                 {ans}
-                <h2 className="mb-3"
-                    style={{margin: 10, fontSize: 40}}>答え : {quizList[count].secAnS}</h2>
-                <hr className="col-12"/>
-                <h2 className="mb-3"
-                    style={{margin: 10, fontSize: 40}}>解説 : {quizList[count].explanation}</h2>
                 {quizList[count].secAnS === select ? (
                     <h2 className="text-end">score:{score + 10}点</h2>
                 ) : (<h2 className="text-end">score:{score}点</h2>)}
-
+                <label htmlFor="example" className="label" style={{fontSize: 30}}>答え</label>
+                <h2 className="mb-3"
+                    style={{margin: 10, fontSize: 40}}>{quizList[count].secAnS}</h2>
+                <hr className="col-12"/>
+                <div className="overflow-auto" style={{height: 200}}>
+                    <label htmlFor="example" className="label" style={{fontSize: 30}}>解説</label>
+                    <p className="mb-3"
+                       style={{margin: 10, fontSize: 20}}>{quizList[count].explanation}
+                    </p>
+                </div>
             </div>
         )
     }
@@ -121,21 +129,33 @@ const QuestionsPage = () => {
         setCheckStart2(false)
         setCount(count + 1)
         setCheckStart(false)
-        setButtonName("next")
+        setButtonName("次へ >>")
 
         //述懐回したらリザルト画面を表示する
         if (count === 10) {
-            console.log("not data")
             setDisplayText(
                 <div>
-                    <p className="mb-3 text-center" style={{margin: 10, fontSize: 40}}>あなたの点数</p>
-                    <p className="mb-3 text-center" style={{margin: 10, fontSize: 60}}>{score}点</p>
+                    <p className="mb-3 text-center" style={{margin: 10, fontSize: 40}}>あなたの点数
+                    </p>
+                    <p className="mb-3 text-center" style={{fontSize: 60}}>{score}点<span style={{fontSize: 30}}>/100点</span><br/>
+                        {score === 100 ?(
+                            <Image src={grade1} alt="Image" className="mb-3 text-center" width={250} height={250}/>
+                        ):score === 0?(
+                            <Image src={grade5} alt="Image" className="mb-3 text-center" width={250} height={250}/>
+                        ):score >= 70?(
+                            <Image src={grade2} alt="Image" className="mb-3 text-center" width={250} height={250}/>
+                        ):score >= 30?(
+                            <Image src={grade3} alt="Image" className="mb-3 text-center" width={250} height={250}/>
+                        ):(
+                            <Image src={grade4} alt="Image" className="mb-3 text-center" width={250} height={250}/>
+                        )
+                        }</p>
                     <div className="d-grid gap-2 col-6 mx-auto">
 
                         <button className="btn btn-light"
                                 type="button"
                                 style={{margin: 10}} onClick={() => router.push("/startPage").then(r => true)}>
-                            完了
+                            スタートページへ
                         </button>
                     </div>
                 </div>
@@ -183,7 +203,6 @@ const QuestionsPage = () => {
 
         }
     }
-
     //スタートに戻るやつ
     const routers = () => {
         router.push("/startPage").then(r => true)
