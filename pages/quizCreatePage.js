@@ -54,7 +54,7 @@ const AddQuiz = () => {
     const [inputValue, setInputValue] = useState('');
     const [inputGenre, setInputGenre] = useState('art');
     const router = useRouter();
-    const [errorMes,setErrorMes] = useState("")
+    const [errorMes, setErrorMes] = useState()
 
     //モード選択に戻る
     const routers = () => {
@@ -109,9 +109,14 @@ const AddQuiz = () => {
             <>
                 <Header/>
                 <div className="container">
-                    <div className="">
+                    <div className="d-grid gap-2 col-10 mx-auto">
                         <h4 className="mb-3">問題作成</h4>
-                        <p className="mb-3 text-danger bg-light">{errorMes}</p>
+                        {errorMes ? (
+                            <p className="mb-3 text-danger bg-light">{errorMes}</p>)
+                            : (
+                                <></>
+                            )
+                        }
                         <div className="mb-3">
                             <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
                             <select className="form-select" id="exampleSelect" value={inputGenre}
@@ -208,8 +213,6 @@ const AddQuiz = () => {
                                     </div>
                                 </div>
                             </div>
-
-
                             <hr className="col-12"/>
                             <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
                                  style={{marginBottom: 30}}>

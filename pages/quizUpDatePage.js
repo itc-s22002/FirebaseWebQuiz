@@ -17,7 +17,7 @@ const UpDataQuiz = () => {
     const [inputGenre, setInputGenre] = useState('test');
     const [inputValue, setInputValue] = useState('');
     const [quizTitle, setQuizTitle] = useState(null);
-    const [errorMes,setErrorMes] = useState("")
+    const [errorMes,setErrorMes] = useState()
 
 
     const genres = [
@@ -231,9 +231,14 @@ const UpDataQuiz = () => {
             <>
                 <Header/>
                 <div className="container">
-                    <div className="">
+                    <div className="d-grid gap-2 col-10 mx-auto">
                         <h4 className="mb-3">問題編集</h4>
-                        <p className="mb-3 text-danger bg-light">{errorMes}</p>
+                        {errorMes ? (
+                                <p className="mb-3 text-danger bg-light">{errorMes}</p>)
+                            : (
+                                <></>
+                            )
+                        }
                         <div className="mb-3">
                             <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
                             <select className="form-select" id="exampleSelect" value={inputGenre}

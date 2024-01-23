@@ -157,11 +157,11 @@ const QuestionsPage = () => {
                             <Image src={grade4} alt="Image" className="mb-3 text-center" width={250} height={250}/>
                         )
                         }</p>
-                    <div className="d-grid gap-2 col-6 mx-auto">
+                    <div className="d-grid gap-2 col-10 mx-auto">
 
                         <button className="btn btn-light"
                                 type="button"
-                                style={{margin: 10}} onClick={() => router.push("/startPage").then(r => true)}>
+                                style={{margin: 10, height: 75, fontSize: 20}} onClick={() => router.push("/startPage").then(r => true)}>
                             スタートページへ
                         </button>
                     </div>
@@ -181,23 +181,23 @@ const QuestionsPage = () => {
                         <button onClick={() => checkAnswer(choice[0])}
                                 className="w-50 btn btn-light"
                                 type="button"
-                                style={{margin: 10, height: 100, fontSize: 20}}>{choice[0]}</button>
+                                style={{margin: 10, height: 100, fontSize: 23}}>{choice[0]}</button>
 
                         <button onClick={() => checkAnswer(choice[1])}
                                 className="w-50 btn btn-light "
                                 type="button"
-                                style={{margin: 10, height: 100, fontSize: 20}}>{choice[1]}</button>
+                                style={{margin: 10, height: 100, fontSize: 23}}>{choice[1]}</button>
                     </div>
                     <div className="w-100 btn-group" role="group" aria-label="Basic outlined example">
                         <button onClick={() => checkAnswer(choice[2])}
                                 className="w-50 btn btn-light "
                                 type="button"
-                                style={{margin: 10, height: 100, fontSize: 20}}>{choice[2]}</button>
+                                style={{margin: 10, height: 100, fontSize: 23}}>{choice[2]}</button>
 
                         <button onClick={() => checkAnswer(choice[3])}
                                 className="w-50 btn btn-light "
                                 type="button"
-                                style={{margin: 10, height: 100, fontSize: 20}}>{choice[3]}</button>
+                                style={{margin: 10, height: 100, fontSize: 23}}>{choice[3]}</button>
                     </div>
                     <div className="d-grid gap-2 col-6 mx-auto" style={{margin: 10}}>
                         <button onClick={() => checkAnswer(false)} className="btn btn-light"
@@ -238,33 +238,35 @@ const QuestionsPage = () => {
         <>
             <Header/>
             <div className="container">
-                <h4 className="mb-3">四択クイズ</h4>
-                <div>{displayText}</div>
-                {/*スタートページか判定し違っていたら何も表示しない*/}
-                {checkStart ? (
-                    <div className="mb-3">
-                        {checkStart2 && (
-                            <div>{checkGenreMenu()}</div>
-                        )}
-
-                        <div className="d-grid gap-2 col-6 mx-auto">
-                            {quizList ? (
-                                <button
-                                    onClick={Questions}
-                                    className="btn btn-light"
-                                    type="button"
-                                    style={{margin: 10}}
-                                >
-                                    {buttonName}
-                                </button>
-                            ) : (
-                                <p className="text-center text-danger bg-light">クイズデータがありません</p>
+                <div className="d-grid gap-2 col-10 mx-auto">
+                    <h4 className="mb-3">四択クイズ</h4>
+                    <div>{displayText}</div>
+                    {/*スタートページか判定し違っていたら何も表示しない*/}
+                    {checkStart ? (
+                        <div className="mb-3">
+                            {checkStart2 && (
+                                <div>{checkGenreMenu()}</div>
                             )}
+
+                            <div className="d-grid gap-2 mx-auto">
+                                {quizList ? (
+                                    <button
+                                        onClick={Questions}
+                                        className="btn btn-light"
+                                        type="button"
+                                        style={{margin: 10, height: 75, fontSize: 20}}
+                                    >
+                                        {buttonName}
+                                    </button>
+                                ) : (
+                                    <p className="text-center text-danger bg-light">クイズデータがありません</p>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <div></div>
-                )}
+                    ) : (
+                        <div></div>
+                    )}
+                </div>
             </div>
         </>
     )
