@@ -55,6 +55,7 @@ const AddQuiz = () => {
     const [inputValue, setInputValue] = useState('');
     const [inputGenre, setInputGenre] = useState('art');
     const router = useRouter();
+    const [errorMes,setErrorMes] = useState("")
 
     //モード選択に戻る
     const routers = () => {
@@ -83,6 +84,7 @@ const AddQuiz = () => {
             try {
                 const docRef = doc(firestore, inputGenre, inputValue);
                 await setDoc(docRef, quizData)
+                setErrorMes("")
                 console.log('Document written with Title: ', docRef.id);
                 if (user) {
                     console.log('製作者', user.email)
@@ -93,6 +95,7 @@ const AddQuiz = () => {
             }
             setInputValue('')
         } else {
+            setErrorMes("入力されていない項目があります")
             console.log("全部入ってねーよバーカ")
         }
     };
@@ -109,6 +112,7 @@ const AddQuiz = () => {
                 <div className="container">
                     <div className="">
                         <h4 className="mb-3">問題作成</h4>
+                        <p className="mb-3 text-danger bg-light">{errorMes}</p>
                         <div className="mb-3">
                             <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
                             <select className="form-select" id="exampleSelect" value={inputGenre}
@@ -122,7 +126,8 @@ const AddQuiz = () => {
                             <div className="row g-3">
                                 <div className="col-12">
                                     <label htmlFor="title" className="form-label">タイトル入力</label>
-                                    <input type="text" className="form-control" id="title" required="" value={inputValue} onChange={handleInputChange}/>
+                                    <input type="text" className="form-control" id="title" required=""
+                                           value={inputValue} onChange={handleInputChange}/>
                                     <div className="invalid-feedback">
                                         Please enter your shipping address.
                                     </div>
@@ -209,7 +214,8 @@ const AddQuiz = () => {
                             <hr className="col-12"/>
                             <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
                                  style={{marginBottom: 30}}>
-                                <button type="button" className="btn btn-light" onClick={addDocumentToFirestore}>作成</button>
+                                <button type="button" className="btn btn-light" onClick={addDocumentToFirestore}>作成
+                                </button>
                                 <button type="button" className="btn btn-light" onClick={routers}>完了</button>
                             </div>
                         </form>
