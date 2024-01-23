@@ -163,28 +163,31 @@ const DeleteDataPage = () => {
         <>
             <Header title={"クイズの消去"}/>
             <div className="container">
-                <h4 className="mb-3">問題消去</h4>
-                <div className="mb-3">
-                    <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
-                    <select className="form-select" id="exampleSelect" value={inputGenre} onChange={handleSelectGenre}>
-                        {genres.map((gen, index) =>
-                            <option key={index} value={gen}>{gen}</option>
-                        )}
-                    </select>
+                <div className="d-grid gap-2 col-10 mx-auto">
+                    <h4 className="mb-3">問題消去</h4>
+                    <div className="mb-3">
+                        <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
+                        <select className="form-select" id="exampleSelect" value={inputGenre}
+                                onChange={handleSelectGenre}>
+                            {genres.map((gen, index) =>
+                                <option key={index} value={gen}>{gen}</option>
+                            )}
+                        </select>
+                    </div>
+                    <div>
+                        <ul className="list-group">
+                            {quizList.map((quiz) => checkUid(quiz))}
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <ul className="list-group">
-                        {quizList.map((quiz) => checkUid(quiz))}
-                    </ul>
-                </div>
-                <div className="d-grid gap-2 col-6 mx-auto">
+                <div className="d-grid gap-2 col-10 mx-auto">
                     <button
                         onClick={routers}
                         className="btn btn-light"
                         type="button"
-                        style={{margin: 10}}
+                        style={{ marginTop:25,height: 75,fontSize:20}}
                     >
-                        完了
+                        問題設定へ
                     </button>
                 </div>
             </div>

@@ -337,9 +337,11 @@ const UpDataQuiz = () => {
                                     <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
                                          style={{marginBottom: 30}}>
                                         <button type="button" className="btn btn-light"
-                                                onClick={udDataDocumentToFirestore}>編集
+                                                onClick={udDataDocumentToFirestore}
+                                                style={{height:75,margin:10,fontSize:20,marginLeft:0,width:50}}>編集
                                         </button>
-                                        <button type="button" className="btn btn-light" onClick={routers}>完了</button>
+                                        <button type="button" className="btn btn-light" onClick={routers}
+                                                style={{margin:10,fontSize:20,marginRight:0,width:50}}>問題設定へ</button>
                                     </div>
                                     <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
                                 </form>

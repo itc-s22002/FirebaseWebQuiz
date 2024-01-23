@@ -79,8 +79,8 @@ const QuestionsPage = () => {
             setScore(score + 10)
             ans =
                 <>
-                    <h1 className="mb-3 text-center" style={{margin: 5, fontSize: 40}}>
-                        <Image src={maru} alt="Image" className="mb-3 text-center" width={150} height={150}/>
+                    <h1 className="mb-3 text-center" style={{margin: 5, fontSize: 30}}>
+                        <Image src={maru} alt="Image" className="m1-2" width={150} height={150}/>
                         <br/>
                         正解
                     </h1>
@@ -174,7 +174,7 @@ const QuestionsPage = () => {
                 <>
                     {/*<h1 className={styles.title}>{quizList[count].title}</h1>*/}
                     <p className="mb-3 text-center"
-                       style={{margin: 10, fontSize: 40}}>問{count + 1}:{quizList[count].question}</p>
+                       style={{margin: 10, fontSize: 30}}>問{count + 1}:{quizList[count].question}</p>
                     {/*<h2 className={styles.questions}>問{count + 1}:{quizList[count].question}</h2>*/}
                     <h2 className="text-end">score:{score}点</h2>
                     <div className="w-100 btn-group" role="group" aria-label="Basic outlined example">
