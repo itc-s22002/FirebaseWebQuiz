@@ -1,6 +1,10 @@
 import {useRouter} from "next/router";
 import Header from "@/components/header";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import app from "../FirebaseConfig"
+const auth = getAuth(app)
+
 
 const StartPage = () => {
     const router = useRouter();
@@ -12,6 +16,23 @@ const StartPage = () => {
     const routersSelectModePage = () => {
         router.push("/selectMode").then(r => true)
     }
+
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+
+        // ログイン状態が変更されたときに呼ばれるコールバック
+        const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+            if (authUser) {
+                setUser(authUser);
+            } else {
+                setUser(null);
+            }
+        });
+
+        // コンポーネントがアンマウントされるときにunsubscribe
+        return () => unsubscribe();
+    }, []);
 
     return (
         <>
@@ -25,9 +46,13 @@ const StartPage = () => {
                     <button type="button" onClick={routersQuestionModePage} className="btn btn-light"
                             style={{margin: 10, height: 75, fontSize: 20}}>スタート
                     </button>
-                    <button type="button" onClick={routersSelectModePage} className="btn btn-light"
-                            style={{margin: 10, height: 75, fontSize: 20}}>問題設定
-                    </button>
+                    {user ? (
+                        <button type="button" onClick={routersSelectModePage} className="btn btn-light"
+                                style={{margin: 10, height: 75, fontSize: 20}}>問題設定
+                        </button>
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
         </>
