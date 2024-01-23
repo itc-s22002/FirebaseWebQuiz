@@ -17,6 +17,8 @@ const UpDataQuiz = () => {
     const [inputGenre, setInputGenre] = useState('test');
     const [inputValue, setInputValue] = useState('');
     const [quizTitle, setQuizTitle] = useState(null);
+    const [errorMes,setErrorMes] = useState("")
+
 
     const genres = [
         "test",
@@ -125,19 +127,32 @@ const UpDataQuiz = () => {
     }
     //登録
     const udDataDocumentToFirestore = async () => {
-        try {
-            const docRef = doc(firestore, inputGenre, inputValue);
-            await updateDoc(docRef, quizData)
-            console.log('Document written with Title: ', docRef.id);
+        if (
+            quizData.title !== "" &&
+            quizData.question !== "" &&
+            quizData.secAnS !== "" &&
+            quizData.secF !== "" &&
+            quizData.secS !== "" &&
+            quizData.secT !== "" &&
+            quizData.explanation !== ""
+        ) {
+            try {
+                const docRef = doc(firestore, inputGenre, inputValue);
+                await updateDoc(docRef, quizData)
+                setErrorMes("")
+                console.log('Document written with Title: ', docRef.id);
 
-            if (user) {
-                console.log('製作者', user.email)
+                if (user) {
+                    console.log('製作者', user.email)
+                }
+                setQuizData(quizTypeData);
+            } catch (error) {
+                console.error('Error adding document: ', error);
             }
-            setQuizData(quizTypeData);
-        } catch (error) {
-            console.error('Error adding document: ', error);
+            setInputValue('')
+        }else {
+            setErrorMes("入力されていない項目があります")
         }
-        setInputValue('')
     };
 
     //選んだジャンルをぶち込む
@@ -218,6 +233,7 @@ const UpDataQuiz = () => {
                 <div className="container">
                     <div className="">
                         <h4 className="mb-3">問題編集</h4>
+                        <p className="mb-3 text-danger bg-light">{errorMes}</p>
                         <div className="mb-3">
                             <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
                             <select className="form-select" id="exampleSelect" value={inputGenre}
