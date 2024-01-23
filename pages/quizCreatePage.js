@@ -2,7 +2,6 @@ import {doc, getFirestore, setDoc} from "firebase/firestore"
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import React, {useState, useEffect} from "react";
 import app from '../FirebaseConfig'
-import styles from "../styles/quizUpPage.module.css"
 import {useRouter} from 'next/router';
 import Header from "@/components/header";
 

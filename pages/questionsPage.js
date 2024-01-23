@@ -181,23 +181,23 @@ const QuestionsPage = () => {
                         <button onClick={() => checkAnswer(choice[0])}
                                 className="w-50 btn btn-light"
                                 type="button"
-                                style={{margin: 10, height: 100, fontSize: 30}}>{choice[0]}</button>
+                                style={{margin: 10, height: 100, fontSize: 20}}>{choice[0]}</button>
 
                         <button onClick={() => checkAnswer(choice[1])}
                                 className="w-50 btn btn-light "
                                 type="button"
-                                style={{margin: 10, height: 100, fontSize: 30}}>{choice[1]}</button>
+                                style={{margin: 10, height: 100, fontSize: 20}}>{choice[1]}</button>
                     </div>
                     <div className="w-100 btn-group" role="group" aria-label="Basic outlined example">
                         <button onClick={() => checkAnswer(choice[2])}
                                 className="w-50 btn btn-light "
                                 type="button"
-                                style={{margin: 10, height: 100, fontSize: 30}}>{choice[2]}</button>
+                                style={{margin: 10, height: 100, fontSize: 20}}>{choice[2]}</button>
 
                         <button onClick={() => checkAnswer(choice[3])}
                                 className="w-50 btn btn-light "
                                 type="button"
-                                style={{margin: 10, height: 100, fontSize: 30}}>{choice[3]}</button>
+                                style={{margin: 10, height: 100, fontSize: 20}}>{choice[3]}</button>
                     </div>
                     <div className="d-grid gap-2 col-6 mx-auto" style={{margin: 10}}>
                         <button onClick={() => checkAnswer(false)} className="btn btn-light"
