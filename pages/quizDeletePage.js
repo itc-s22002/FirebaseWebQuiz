@@ -40,6 +40,7 @@ const DeleteDataPage = () => {
     const fetchData = async () => {
         try {
             if (inputGenre) {
+                console.log("get Api")
                 const quizCollection = collection(firestore, inputGenre);
                 const querySnapshot = await getDocs(quizCollection);
                 const quizData = [];
@@ -47,7 +48,6 @@ const DeleteDataPage = () => {
                     quizData.push({id: doc.id, ...doc.data()});
                 });
                 setQuizList(quizData);
-                console.log(quizList)
 
             }
         } catch (error) {

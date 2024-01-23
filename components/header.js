@@ -1,6 +1,5 @@
 import Image from "next/image";
 import question from "/images/question.png"
-import styles from "/styles/header.module.css";
 import {useRouter} from "next/router";
 import {Dropdown} from "react-bootstrap";
 import app from "../FirebaseConfig"

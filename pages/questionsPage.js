@@ -16,10 +16,6 @@ import Header from "@/components/header";
 const firestore = getFirestore(app)
 
 //firebaseのデータを十個ランダムに持ってくるのに使う
-const getRandomItems = (array, count) => {
-    const shuffled = array.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-};
 
 //配列を渡してシャッフルする関数
 const shuffleArray = (array) => {
@@ -44,7 +40,6 @@ const QuestionsPage = () => {
     const [checkStart, setCheckStart] = useState(true);
     const [checkStart2, setCheckStart2] = useState(true);
     const [inputGenre, setInputGenre] = useState('quiz');
-    const [grade, setGrade] =useState("")
 
     const genres = [
         "test",
@@ -85,7 +80,7 @@ const QuestionsPage = () => {
             ans =
                 <>
                     <h1 className="mb-3 text-center" style={{margin: 5, fontSize: 40}}>
-                        <Image src={maru} alt="Image" className="mb-3 text-center" width={100} height={100}/>
+                        <Image src={maru} alt="Image" className="mb-3 text-center" width={150} height={150}/>
                         <br/>
                         正解
                     </h1>
@@ -93,8 +88,8 @@ const QuestionsPage = () => {
         } else {
             ans =
                 <>
-                    <h1 className="mb-3 text-center" style={{margin: 5, fontSize: 40}}>
-                        <Image src={batu} alt="Image" className="m1-2" width={100} height={100}/>
+                    <h1 className="mb-3 text-center" style={{margin: 5, fontSize: 30}}>
+                        <Image src={batu} alt="Image" className="m1-2" width={150} height={150}/>
                         <br/>
                         不正解
                     </h1>
@@ -120,6 +115,17 @@ const QuestionsPage = () => {
         )
     }
 
+    //要素数チェックし十個ランダムにするやつ
+    const getRandomItems = (array, count) => {
+        if (array.length < 10) {
+            console.log("十個ない")
+        } else {
+            console.log(array)
+            const shuffled = array.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+    };
+
     //リロードするやつ、使うかどうかわからん
     const reload = () => {
         window.location.reload();
@@ -137,16 +143,17 @@ const QuestionsPage = () => {
                 <div>
                     <p className="mb-3 text-center" style={{margin: 10, fontSize: 40}}>あなたの点数
                     </p>
-                    <p className="mb-3 text-center" style={{fontSize: 60}}>{score}点<span style={{fontSize: 30}}>/100点</span><br/>
-                        {score === 100 ?(
+                    <p className="mb-3 text-center" style={{fontSize: 60}}>{score}点<span
+                        style={{fontSize: 30}}>/100点</span><br/>
+                        {score === 100 ? (
                             <Image src={grade1} alt="Image" className="mb-3 text-center" width={250} height={250}/>
-                        ):score === 0?(
+                        ) : score === 0 ? (
                             <Image src={grade5} alt="Image" className="mb-3 text-center" width={250} height={250}/>
-                        ):score >= 70?(
+                        ) : score >= 70 ? (
                             <Image src={grade2} alt="Image" className="mb-3 text-center" width={250} height={250}/>
-                        ):score >= 30?(
+                        ) : score >= 30 ? (
                             <Image src={grade3} alt="Image" className="mb-3 text-center" width={250} height={250}/>
-                        ):(
+                        ) : (
                             <Image src={grade4} alt="Image" className="mb-3 text-center" width={250} height={250}/>
                         )
                         }</p>
@@ -239,15 +246,20 @@ const QuestionsPage = () => {
                         {checkStart2 && (
                             <div>{checkGenreMenu()}</div>
                         )}
+
                         <div className="d-grid gap-2 col-6 mx-auto">
-                            <button
-                                onClick={Questions}
-                                className="btn btn-light"
-                                type="button"
-                                style={{margin: 10}}
-                            >
-                                {buttonName}
-                            </button>
+                            {quizList ? (
+                                <button
+                                    onClick={Questions}
+                                    className="btn btn-light"
+                                    type="button"
+                                    style={{margin: 10}}
+                                >
+                                    {buttonName}
+                                </button>
+                            ) : (
+                                <p className="text-center text-danger bg-light">クイズデータがありません</p>
+                            )}
                         </div>
                     </div>
                 ) : (
