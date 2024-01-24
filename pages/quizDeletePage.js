@@ -104,7 +104,7 @@ const DeleteDataPage = () => {
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <p style={{color: "black"}}>
-                            Title:{quizTitle}
+                            {quizTitle}
                         </p>
                     </Modal.Title>
                 </Modal.Header>

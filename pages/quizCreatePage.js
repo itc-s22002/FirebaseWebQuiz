@@ -4,6 +4,7 @@ import React, {useState, useEffect} from "react";
 import app from '../FirebaseConfig'
 import {useRouter} from 'next/router';
 import Header from "@/components/header";
+import {Button, Modal} from "react-bootstrap";
 
 
 const firestore = getFirestore(app)
@@ -97,12 +98,90 @@ const AddQuiz = () => {
             setErrorMes("入力されていない項目があります")
             console.log("全部入ってねーよバーカ")
         }
+        handleCloseModal()
     };
 
     //選んだジャンルをぶち込む
     const handleSelectGenre = (e) => {
         setInputGenre(e.target.value);
     }
+
+    const [showModal, setShowModal] = useState(false);
+
+    const onModal = () => {
+        setShowModal(true)
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+    const SmallModal = () => {
+        const handleCloseModal = () => {
+            setShowModal(false);
+        };
+        return (
+            <Modal show={showModal} onHide={handleCloseModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <p style={{color: "black"}}>
+                            {inputValue}
+                        </p>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p style={{color: "black"}}>作成しますか</p>
+                    <table className="table">
+                        <thead>
+                        <tr>
+                            <th scope="col" style={{width:20}}>項目</th>
+                            <th scope="col" style={{width:80}}>編集前</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">タイトル</th>
+                            <td>{inputValue}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">問題文</th>
+                            <td>{quizData.question}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">正答</th>
+                            <td>{quizData.secAnS}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">選択肢1</th>
+                            <td>{quizData.secF}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">選択肢2</th>
+                            <td>{quizData.secS}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">選択肢3</th>
+                            <td>{quizData.secT}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">解説</th>
+                            <td>{quizData.explanation}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={addDocumentToFirestore}>
+                        作成
+                    </Button>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        閉じる
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+        );
+    };
+
     //ログインしているか確認
     if (user) {
         return (
@@ -216,11 +295,12 @@ const AddQuiz = () => {
                             <hr className="col-12"/>
                             <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
                                  style={{marginBottom: 30}}>
-                                <button type="button" className="btn btn-light" onClick={addDocumentToFirestore} style={{height:75,margin:10,fontSize:20,marginLeft:0,width:50}}>作成
+                                <button type="button" className="btn btn-light" onClick={onModal} style={{height:75,margin:10,fontSize:20,marginLeft:0,width:50}}>作成
                                 </button>
                                 <button type="button" className="btn btn-light" onClick={routers} style={{margin:10,fontSize:20,marginRight:0,width:50}}>問題設定へ</button>
                             </div>
                         </form>
+                        <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
                     </div>
                 </div>
             </>
