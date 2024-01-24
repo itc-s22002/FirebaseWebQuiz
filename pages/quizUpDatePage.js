@@ -3,7 +3,7 @@ import app from '../FirebaseConfig'
 import {collection, doc, getDocs, getFirestore, setDoc, updateDoc, getDoc} from "firebase/firestore";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {useRouter} from "next/router";
-import {faPen} from '@fortawesome/free-solid-svg-icons'
+import {faPen, faArrowRight} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Header from "@/components/header";
 import {Button, Modal} from "react-bootstrap";
@@ -17,7 +17,7 @@ const UpDataQuiz = () => {
     const [inputGenre, setInputGenre] = useState('test');
     const [inputValue, setInputValue] = useState('');
     const [quizTitle, setQuizTitle] = useState(null);
-    const [errorMes,setErrorMes] = useState()
+    const [errorMes, setErrorMes] = useState()
 
 
     const genres = [
@@ -97,6 +97,7 @@ const UpDataQuiz = () => {
         secT: "",
         explanation: "",
         userId: ""
+
     }
 
     useEffect(() => {
@@ -114,7 +115,7 @@ const UpDataQuiz = () => {
                 explanation: quizTitle.explanation,
             })
         }
-    },[quizTitle])
+    }, [quizTitle])
 
 
     const [quizData, setQuizData] = useState(quizTypeData);
@@ -150,9 +151,10 @@ const UpDataQuiz = () => {
                 console.error('Error adding document: ', error);
             }
             setInputValue('')
-        }else {
+        } else {
             setErrorMes("入力されていない項目があります")
         }
+        handleCloseModal()
     };
 
     //選んだジャンルをぶち込む
@@ -195,26 +197,80 @@ const UpDataQuiz = () => {
     const handleCloseModal = () => {
         setShowModal(false);
     }
-    const SmallModal = () => {const handleCloseModal = () => {
-        setShowModal(false);
-    };
+    const SmallModal = () => {
+        const handleCloseModal = () => {
+            setShowModal(false);
+        };
         return (
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <p style={{color: "black"}}>
-                            Title:{quizTitle}
+                            {inputValue}
                         </p>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p style={{color: "black"}}>削除しますか。</p>
+                    <p style={{color: "black"}}>編集しますか</p>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" style={{width:16}}>項目</th>
+                                <th scope="col" style={{width:42}}>編集前</th>
+                                <th scope="col" style={{width:42}}>編集</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">問題文</th>
+                            <td>{quizTitle.question}</td>
+                            {quizTitle.question !== quizData.question ?(
+                                <td style={{color:"red"}}>{quizData.question}</td>
+                            ): (<td>{quizData.question}</td>)}
+                        </tr>
+                        <tr>
+                            <th scope="row">正答</th>
+                            <td>{quizTitle.secAnS}</td>
+                            {quizTitle.secAnS !== quizData.secAnS ?(
+                                <td style={{color:"red"}}>{quizData.secAnS}</td>
+                            ): (<td>{quizData.secAnS}</td>)}
+                        </tr>
+                        <tr>
+                            <th scope="row">選択肢1</th>
+                            <td>{quizTitle.secF}</td>
+                            {quizTitle.secF !== quizData.secF ?(
+                                <td style={{color:"red"}}>{quizData.secF}</td>
+                            ): (<td>{quizData.secF}</td>)}
+                        </tr>
+                        <tr>
+                            <th scope="row">選択肢2</th>
+                            <td>{quizTitle.secS}</td>
+                            {quizTitle.secS !== quizData.secS ?(
+                                <td style={{color:"red"}}>{quizData.secS}</td>
+                            ): (<td>{quizData.secS}</td>)}
+                        </tr>
+                        <tr>
+                            <th scope="row">選択肢3</th>
+                            <td>{quizTitle.secT}</td>
+                            {quizTitle.secT !== quizData.secT ?(
+                                <td style={{color:"red"}}>{quizData.secT}</td>
+                            ): (<td>{quizData.secT}</td>)}
+                        </tr>
+                        <tr>
+                            <th scope="row">解説</th>
+                            <td>{quizTitle.explanation}</td>
+                            {quizTitle.explanation !== quizData.explanation ?(
+                                <td style={{color:"red"}}>{quizData.explanation}</td>
+                            ): (<td>{quizData.explanation}</td>)}
+                        </tr>
+                        </tbody>
+                    </table>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary">
-                        削除
+                    <Button variant="secondary" onClick={udDataDocumentToFirestore}>
+                        編集
                     </Button>
-                    <Button variant="secondary">
+                    <Button variant="secondary" onClick={handleCloseModal}>
                         閉じる
                     </Button>
                 </Modal.Footer>
@@ -337,13 +393,20 @@ const UpDataQuiz = () => {
                                     <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
                                          style={{marginBottom: 30}}>
                                         <button type="button" className="btn btn-light"
-                                                onClick={udDataDocumentToFirestore}
-                                                style={{height:75,margin:10,fontSize:20,marginLeft:0,width:50}}>編集
+                                                onClick={onModal}
+                                                style={{
+                                                    height: 75,
+                                                    margin: 10,
+                                                    fontSize: 20,
+                                                    marginLeft: 0,
+                                                    width: 50
+                                                }}>編集
                                         </button>
                                         <button type="button" className="btn btn-light" onClick={routers}
-                                                style={{margin:10,fontSize:20,marginRight:0,width:50}}>問題設定へ</button>
+                                                style={{margin: 10, fontSize: 20, marginRight: 0, width: 50}}>問題設定へ
+                                        </button>
+                                        <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
                                     </div>
-                                    <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
                                 </form>
                             </>
                         ) : (<p></p>)}
