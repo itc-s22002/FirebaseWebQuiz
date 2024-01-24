@@ -136,7 +136,6 @@ const DeleteDataPage = () => {
                             icon={faTrashCan}
                             onClick={(e) => onModal(quiz.title)}
                         />
-                        <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
                         {/*<SmallModal2 showModal2={showModal2} handleClose={handleCloseModal2}/>*/}
                     </li>
                 </div>
@@ -161,7 +160,7 @@ const DeleteDataPage = () => {
 
     return (
         <>
-            <Header title={"クイズの消去"}/>
+            <Header/>
             <div className="container">
                 <div className="d-grid gap-2 col-10 mx-auto">
                     <h4 className="mb-3">問題消去</h4>
@@ -190,6 +189,8 @@ const DeleteDataPage = () => {
                         問題設定へ
                     </button>
                 </div>
+                <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
+
             </div>
         </>
     );
