@@ -15,7 +15,7 @@ const UpDataQuiz = () => {
     const [user, setUser] = useState(null);
     const [quizList, setQuizList] = useState([]);
     const [inputGenre, setInputGenre] = useState('test');
-    const [inputValue, setInputValue] = useState('');
+    const [inputTitle, setInputTitle] = useState('');
     const [quizTitle, setQuizTitle] = useState(null);
     const [errorMes, setErrorMes] = useState()
 
@@ -68,8 +68,8 @@ const UpDataQuiz = () => {
 
     const fetchQuizData = async () => {
         try {
-            if (inputValue) {
-                const bookDocRef = doc(firestore, inputGenre, inputValue);
+            if (inputTitle) {
+                const bookDocRef = doc(firestore, inputGenre, inputTitle);
                 const querySnapshot = await getDoc(bookDocRef);
 
                 if (querySnapshot.exists()) {
@@ -89,7 +89,7 @@ const UpDataQuiz = () => {
     }, [inputGenre]);
 
     const quizTypeData = {
-        title: inputValue,
+        title: inputTitle,
         question: "",
         secAnS: "",
         secF: "",
@@ -102,7 +102,7 @@ const UpDataQuiz = () => {
 
     useEffect(() => {
         fetchQuizData();
-    }, [inputValue]);
+    }, [inputTitle]);
 
     useEffect(() => {
         if (quizTitle) {
@@ -138,7 +138,7 @@ const UpDataQuiz = () => {
             quizData.explanation !== ""
         ) {
             try {
-                const docRef = doc(firestore, inputGenre, inputValue);
+                const docRef = doc(firestore, inputGenre, inputTitle);
                 await updateDoc(docRef, quizData)
                 setErrorMes("")
                 console.log('Document written with Title: ', docRef.id);
@@ -150,7 +150,7 @@ const UpDataQuiz = () => {
             } catch (error) {
                 console.error('Error adding document: ', error);
             }
-            setInputValue('')
+            setInputTitle('')
         } else {
             setErrorMes("入力されていない項目があります")
         }
@@ -163,7 +163,7 @@ const UpDataQuiz = () => {
     }
 
     const handleInputChange = (title, uid) => {
-        setInputValue(title);
+        setInputTitle(title);
         setQuizData({...quizData, title: title, userId: uid})
     };
 
@@ -187,7 +187,7 @@ const UpDataQuiz = () => {
 
     }
 
-    ///
+    /// モーダル関係
     const [showModal, setShowModal] = useState(false);
 
     const onModal = () => {
@@ -206,7 +206,7 @@ const UpDataQuiz = () => {
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <p style={{color: "black"}}>
-                            {inputValue}
+                            {inputTitle}
                         </p>
                     </Modal.Title>
                 </Modal.Header>
@@ -214,54 +214,54 @@ const UpDataQuiz = () => {
                     <p style={{color: "black"}}>編集しますか</p>
                     <table className="table">
                         <thead>
-                            <tr>
-                                <th scope="col" style={{width:16}}>項目</th>
-                                <th scope="col" style={{width:42}}>編集前</th>
-                                <th scope="col" style={{width:42}}>編集</th>
-                            </tr>
+                        <tr>
+                            <th scope="col" style={{width: 16}}>項目</th>
+                            <th scope="col" style={{width: 42}}>編集前</th>
+                            <th scope="col" style={{width: 42}}>編集後</th>
+                        </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <th scope="row">問題文</th>
                             <td>{quizTitle.question}</td>
-                            {quizTitle.question !== quizData.question ?(
-                                <td style={{color:"red"}}>{quizData.question}</td>
-                            ): (<td>{quizData.question}</td>)}
+                            {quizTitle.question !== quizData.question ? (
+                                <td style={{color: "red"}}>{quizData.question}</td>
+                            ) : (<td>{quizData.question}</td>)}
                         </tr>
                         <tr>
                             <th scope="row">正答</th>
                             <td>{quizTitle.secAnS}</td>
-                            {quizTitle.secAnS !== quizData.secAnS ?(
-                                <td style={{color:"red"}}>{quizData.secAnS}</td>
-                            ): (<td>{quizData.secAnS}</td>)}
+                            {quizTitle.secAnS !== quizData.secAnS ? (
+                                <td style={{color: "red"}}>{quizData.secAnS}</td>
+                            ) : (<td>{quizData.secAnS}</td>)}
                         </tr>
                         <tr>
                             <th scope="row">選択肢1</th>
                             <td>{quizTitle.secF}</td>
-                            {quizTitle.secF !== quizData.secF ?(
-                                <td style={{color:"red"}}>{quizData.secF}</td>
-                            ): (<td>{quizData.secF}</td>)}
+                            {quizTitle.secF !== quizData.secF ? (
+                                <td style={{color: "red"}}>{quizData.secF}</td>
+                            ) : (<td>{quizData.secF}</td>)}
                         </tr>
                         <tr>
                             <th scope="row">選択肢2</th>
                             <td>{quizTitle.secS}</td>
-                            {quizTitle.secS !== quizData.secS ?(
-                                <td style={{color:"red"}}>{quizData.secS}</td>
-                            ): (<td>{quizData.secS}</td>)}
+                            {quizTitle.secS !== quizData.secS ? (
+                                <td style={{color: "red"}}>{quizData.secS}</td>
+                            ) : (<td>{quizData.secS}</td>)}
                         </tr>
                         <tr>
                             <th scope="row">選択肢3</th>
                             <td>{quizTitle.secT}</td>
-                            {quizTitle.secT !== quizData.secT ?(
-                                <td style={{color:"red"}}>{quizData.secT}</td>
-                            ): (<td>{quizData.secT}</td>)}
+                            {quizTitle.secT !== quizData.secT ? (
+                                <td style={{color: "red"}}>{quizData.secT}</td>
+                            ) : (<td>{quizData.secT}</td>)}
                         </tr>
                         <tr>
                             <th scope="row">解説</th>
                             <td>{quizTitle.explanation}</td>
-                            {quizTitle.explanation !== quizData.explanation ?(
-                                <td style={{color:"red"}}>{quizData.explanation}</td>
-                            ): (<td>{quizData.explanation}</td>)}
+                            {quizTitle.explanation !== quizData.explanation ? (
+                                <td style={{color: "red"}}>{quizData.explanation}</td>
+                            ) : (<td>{quizData.explanation}</td>)}
                         </tr>
                         </tbody>
                     </table>
@@ -317,7 +317,7 @@ const UpDataQuiz = () => {
                                             <label className="form-label">
                                                 変更するクイズ
                                             </label>
-                                            <h1>{inputValue}</h1>
+                                            <h1>{inputTitle}</h1>
                                         </div>
                                         <div className="col-12">
                                             <label htmlFor="question" className="form-label">問題文入力</label>
@@ -415,7 +415,18 @@ const UpDataQuiz = () => {
             </>
         );
     } else {
-        return <p>Loading...</p>;
+        return (
+            <>
+                <Header/>
+                <div className="container">
+                    <div className="text-center" style={{marginTop:50}}>
+                        <div className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
     }
 }
 

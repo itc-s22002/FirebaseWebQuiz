@@ -41,6 +41,7 @@ const DropDownList = () => {
     const logout = async () => {
         try {
             await auth.signOut();
+            routersLogin()
             console.log('User logged out');
         } catch (error) {
             console.error('Error logging out:', error);
@@ -84,7 +85,7 @@ const Header = ({title}) => {
     const router = useRouter();
 
     const routers = () => {
-        router.push("/startPage").then(r => true)
+            router.push("/startPage").then(r => true)
     }
 
     return (

@@ -158,42 +158,57 @@ const DeleteDataPage = () => {
     };
 
 
-    return (
-        <>
-            <Header/>
-            <div className="container">
-                <div className="d-grid gap-2 col-10 mx-auto">
-                    <h4 className="mb-3">問題消去</h4>
-                    <div className="mb-3">
-                        <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
-                        <select className="form-select" id="exampleSelect" value={inputGenre}
-                                onChange={handleSelectGenre}>
-                            {genres.map((gen, index) =>
-                                <option key={index} value={gen}>{gen}</option>
-                            )}
-                        </select>
+    if (user) {
+        return (
+            <>
+                <Header/>
+                <div className="container">
+                    <div className="d-grid gap-2 col-10 mx-auto">
+                        <h4 className="mb-3">問題消去</h4>
+                        <div className="mb-3">
+                            <label htmlFor="exampleSelect" className="form-label">Select Genre</label>
+                            <select className="form-select" id="exampleSelect" value={inputGenre}
+                                    onChange={handleSelectGenre}>
+                                {genres.map((gen, index) =>
+                                    <option key={index} value={gen}>{gen}</option>
+                                )}
+                            </select>
+                        </div>
+                        <div>
+                            <ul className="list-group">
+                                {quizList.map((quiz) => checkUid(quiz))}
+                            </ul>
+                        </div>
                     </div>
-                    <div>
-                        <ul className="list-group">
-                            {quizList.map((quiz) => checkUid(quiz))}
-                        </ul>
+                    <div className="d-grid gap-2 col-10 mx-auto">
+                        <button
+                            onClick={routers}
+                            className="btn btn-light"
+                            type="button"
+                            style={{marginTop: 25, height: 75, fontSize: 20, marginBottom: 25}}
+                        >
+                            問題設定へ
+                        </button>
                     </div>
-                </div>
-                <div className="d-grid gap-2 col-10 mx-auto">
-                    <button
-                        onClick={routers}
-                        className="btn btn-light"
-                        type="button"
-                        style={{ marginTop:25,height: 75,fontSize:20}}
-                    >
-                        問題設定へ
-                    </button>
-                </div>
-                <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
+                    <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
 
-            </div>
-        </>
-    );
+                </div>
+            </>
+        );
+    } else {
+        return(
+            <>
+                <Header/>
+                <div className="container">
+                    <div className="text-center" style={{marginTop: 50}}>
+                        <div className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
 };
 
 export default DeleteDataPage;

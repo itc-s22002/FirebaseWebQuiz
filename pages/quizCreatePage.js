@@ -52,7 +52,7 @@ const AddQuiz = () => {
 
 
     const [quizData, setQuizData] = useState(quizTypeData);
-    const [inputValue, setInputValue] = useState('');
+    const [inputTitle, setInputTitle] = useState('');
     const [inputGenre, setInputGenre] = useState('art');
     const router = useRouter();
     const [errorMes, setErrorMes] = useState()
@@ -64,7 +64,7 @@ const AddQuiz = () => {
 
     //入力したやつをぶち込む
     const handleInputChange = (e) => {
-        setInputValue(e.target.value);
+        setInputTitle(e.target.value);
         setQuizData({...quizData, title: e.target.value, userId: user.uid})
     };
 
@@ -82,7 +82,7 @@ const AddQuiz = () => {
         ) {
             console.log(inputGenre)
             try {
-                const docRef = doc(firestore, inputGenre, inputValue);
+                const docRef = doc(firestore, inputGenre, inputTitle);
                 await setDoc(docRef, quizData)
                 setErrorMes("")
                 console.log('Document written with Title: ', docRef.id);
@@ -93,7 +93,7 @@ const AddQuiz = () => {
             } catch (error) {
                 console.error('Error adding document: ', error);
             }
-            setInputValue('')
+            setInputTitle('')
         } else {
             setErrorMes("入力されていない項目があります")
             console.log("全部入ってねーよバーカ")
@@ -124,7 +124,7 @@ const AddQuiz = () => {
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <p style={{color: "black"}}>
-                            {inputValue}
+                            {inputTitle}
                         </p>
                     </Modal.Title>
                 </Modal.Header>
@@ -133,14 +133,14 @@ const AddQuiz = () => {
                     <table className="table">
                         <thead>
                         <tr>
-                            <th scope="col" style={{width:20}}>項目</th>
-                            <th scope="col" style={{width:80}}>編集前</th>
+                            <th scope="col" style={{width: 20}}>項目</th>
+                            <th scope="col" style={{width: 80}}>編集前</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <th scope="row">タイトル</th>
-                            <td>{inputValue}</td>
+                            <td>{inputTitle}</td>
                         </tr>
                         <tr>
                             <th scope="row">問題文</th>
@@ -191,7 +191,7 @@ const AddQuiz = () => {
                     <div className="d-grid gap-2 col-10 mx-auto">
                         <h4 className="mb-3">問題作成</h4>
                         {errorMes ? (
-                            <p className="mb-3 text-danger bg-light">{errorMes}</p>)
+                                <p className="mb-3 text-danger bg-light">{errorMes}</p>)
                             : (
                                 <></>
                             )
@@ -210,7 +210,7 @@ const AddQuiz = () => {
                                 <div className="col-12">
                                     <label htmlFor="title" className="form-label">タイトル入力</label>
                                     <input type="text" className="form-control" id="title" required=""
-                                           value={inputValue} onChange={handleInputChange}/>
+                                           value={inputTitle} onChange={handleInputChange}/>
                                     <div className="invalid-feedback">
                                         Please enter your shipping address.
                                     </div>
@@ -295,9 +295,12 @@ const AddQuiz = () => {
                             <hr className="col-12"/>
                             <div className="w-100 btn-group" role="group" aria-label="Basic outlined example"
                                  style={{marginBottom: 30}}>
-                                <button type="button" className="btn btn-light" onClick={onModal} style={{height:75,margin:10,fontSize:20,marginLeft:0,width:50}}>作成
+                                <button type="button" className="btn btn-light" onClick={onModal}
+                                        style={{height: 75, margin: 10, fontSize: 20, marginLeft: 0, width: 50}}>作成
                                 </button>
-                                <button type="button" className="btn btn-light" onClick={routers} style={{margin:10,fontSize:20,marginRight:0,width:50}}>問題設定へ</button>
+                                <button type="button" className="btn btn-light" onClick={routers}
+                                        style={{margin: 10, fontSize: 20, marginRight: 0, width: 50}}>問題設定へ
+                                </button>
                             </div>
                         </form>
                         <SmallModal showModal={showModal} handleClose={handleCloseModal}/>
@@ -307,7 +310,18 @@ const AddQuiz = () => {
 
         );
     } else {
-        return <p>Loading...</p>;
+        return (
+            <>
+                <Header/>
+                <div className="container">
+                    <div className="text-center" style={{marginTop: 50}}>
+                        <div className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
     }
 }
 

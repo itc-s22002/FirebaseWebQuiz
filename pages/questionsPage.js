@@ -1,5 +1,5 @@
 import app from '../FirebaseConfig'
-import {getFirestore, collection, getDocs, where} from "firebase/firestore";
+import {getFirestore, collection, getDocs} from "firebase/firestore";
 import React, {useState, useEffect} from "react";
 import {useRouter} from 'next/router';
 import Image from "next/image";
@@ -15,8 +15,6 @@ import Header from "@/components/header";
 
 const firestore = getFirestore(app)
 
-//firebaseのデータを十個ランダムに持ってくるのに使う
-
 //配列を渡してシャッフルする関数
 const shuffleArray = (array) => {
     // 配列をシャッフルする関数
@@ -28,7 +26,6 @@ const shuffleArray = (array) => {
     return shuffledArray;
 }
 
-//メイン
 const QuestionsPage = () => {
     const [quizList, setQuizList] = useState([]);
     const router = useRouter();
@@ -36,9 +33,9 @@ const QuestionsPage = () => {
     const [score, setScore] = useState(0)
     const [displayText, setDisplayText] = useState("");
     let choice = []
-    const [buttonName, setButtonName] = useState("スタート")
+    const [questionButton, setQuestionButton] = useState("スタート")
     const [checkStart, setCheckStart] = useState(true);
-    const [checkStart2, setCheckStart2] = useState(true);
+    const [checkGenreVar, setCheckGenreVar] = useState(true);
     const [inputGenre, setInputGenre] = useState('quiz');
 
     const genres = [
@@ -132,10 +129,10 @@ const QuestionsPage = () => {
     }
     //問題を表示するする
     const Questions = () => {
-        setCheckStart2(false)
+        setCheckGenreVar(false)
         setCount(count + 1)
         setCheckStart(false)
-        setButtonName("次へ >>")
+        setQuestionButton("次へ >>")
 
         //述懐回したらリザルト画面を表示する
         if (count === 10) {
@@ -145,6 +142,7 @@ const QuestionsPage = () => {
                     </p>
                     <p className="mb-3 text-center" style={{fontSize: 60}}>{score}点<span
                         style={{fontSize: 30}}>/100点</span><br/>
+                        {/*点数ごとに大変良くできましたスタンプのグレードを変える*/}
                         {score === 100 ? (
                             <Image src={grade1} alt="Image" className="mb-3 text-center" width={250} height={250}/>
                         ) : score === 0 ? (
@@ -161,7 +159,8 @@ const QuestionsPage = () => {
 
                         <button className="btn btn-light"
                                 type="button"
-                                style={{margin: 10, height: 75, fontSize: 20}} onClick={() => router.push("/startPage").then(r => true)}>
+                                style={{margin: 10, height: 75, fontSize: 20}}
+                                onClick={() => router.push("/startPage").then(r => true)}>
                             スタートページへ
                         </button>
                     </div>
@@ -210,11 +209,6 @@ const QuestionsPage = () => {
 
         }
     }
-    //スタートに戻るやつ
-    const routers = () => {
-        router.push("/startPage").then(r => true)
-    }
-
     //ジャンルをえらんでぶち込む
     const handleSelectGenre = (e) => {
         setInputGenre(e.target.value);
@@ -244,7 +238,7 @@ const QuestionsPage = () => {
                     {/*スタートページか判定し違っていたら何も表示しない*/}
                     {checkStart ? (
                         <div className="mb-3">
-                            {checkStart2 && (
+                            {checkGenreVar && (
                                 <div>{checkGenreMenu()}</div>
                             )}
 
@@ -256,7 +250,7 @@ const QuestionsPage = () => {
                                         type="button"
                                         style={{margin: 10, height: 75, fontSize: 20}}
                                     >
-                                        {buttonName}
+                                        {questionButton}
                                     </button>
                                 ) : (
                                     <p className="text-center text-danger bg-light">クイズデータがありません</p>
