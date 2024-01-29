@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import app from '../FirebaseConfig'
-import {collection, doc, getDocs, getFirestore, setDoc, updateDoc, getDoc} from "firebase/firestore";
+import {collection, doc, getDocs, getFirestore, updateDoc, getDoc} from "firebase/firestore";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {useRouter} from "next/router";
-import {faPen, faArrowRight} from '@fortawesome/free-solid-svg-icons'
+import {faPen} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Header from "@/components/header";
 import {Button, Modal} from "react-bootstrap";
@@ -177,7 +177,6 @@ const UpDataQuiz = () => {
                             icon={faPen}
                             onClick={(e) => handleInputChange(quiz.title, user.uid)}
                         />
-                        {/*<SmallModal2 showModal2={showModal2} handleClose={handleCloseModal2}/>*/}
                     </li>
                 </div>
             )
@@ -267,10 +266,10 @@ const UpDataQuiz = () => {
                     </table>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={udDataDocumentToFirestore}>
+                    <Button className="btn btn-primary" variant="secondary" onClick={udDataDocumentToFirestore} >
                         編集
                     </Button>
-                    <Button variant="secondary" onClick={handleCloseModal}>
+                    <Button className="btn btn-danger" variant="secondary" onClick={handleCloseModal}>
                         閉じる
                     </Button>
                 </Modal.Footer>
@@ -399,7 +398,7 @@ const UpDataQuiz = () => {
                                                     margin: 10,
                                                     fontSize: 20,
                                                     marginLeft: 0,
-                                                    width: 50
+                                                    width: 50,
                                                 }}>編集
                                         </button>
                                         <button type="button" className="btn btn-light" onClick={routers}
@@ -419,7 +418,7 @@ const UpDataQuiz = () => {
             <>
                 <Header/>
                 <div className="container">
-                    <div className="text-center" style={{marginTop:50}}>
+                    <div className="text-center" style={{marginTop: 50}}>
                         <div className="spinner-border" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>

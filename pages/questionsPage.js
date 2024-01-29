@@ -33,7 +33,7 @@ const QuestionsPage = () => {
     const [score, setScore] = useState(0)
     const [displayText, setDisplayText] = useState("");
     let choice = []
-    const [questionButton, setQuestionButton] = useState("スタート")
+    const [questionButton, setQuestionButton] = useState("クイズスタート")
     const [checkStart, setCheckStart] = useState(true);
     const [checkGenreVar, setCheckGenreVar] = useState(true);
     const [inputGenre, setInputGenre] = useState('quiz');

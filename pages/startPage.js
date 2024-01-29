@@ -44,7 +44,7 @@ const StartPage = () => {
                         selectMode
                     </label>
                     <button type="button" onClick={routersQuestionModePage} className="btn btn-light"
-                            style={{margin: 10, height: 75, fontSize: 20}}>スタート
+                            style={{margin: 10, height: 75, fontSize: 20}}>四択クイズ
                     </button>
                     {user ? (
                         <button type="button" onClick={routersSelectModePage} className="btn btn-light"
