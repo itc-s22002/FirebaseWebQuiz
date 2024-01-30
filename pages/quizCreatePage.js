@@ -80,7 +80,7 @@ const AddQuiz = () => {
             quizData.secT !== "" &&
             quizData.explanation !== ""
         ) {
-            console.log(inputGenre)
+            // console.log(inputGenre)
             try {
                 const docRef = doc(firestore, inputGenre, inputTitle);
                 await setDoc(docRef, quizData)

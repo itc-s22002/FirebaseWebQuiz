@@ -55,7 +55,7 @@ const UpDataQuiz = () => {
                 });
 
                 setQuizList(quizData);
-                console.log(quizList)
+                // console.log(quizList)
             }
         } catch (error) {
             console.error('Error fetching data:', error);

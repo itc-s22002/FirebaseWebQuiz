@@ -117,7 +117,7 @@ const QuestionsPage = () => {
         if (array.length < 10) {
             console.log("十個ない")
         } else {
-            console.log(array)
+            // console.log(array)
             const shuffled = array.sort(() => 0.5 - Math.random());
             return shuffled.slice(0, count);
         }
