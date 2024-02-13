@@ -27,7 +27,7 @@ const shuffleArray = (array) => {
 }
 
 const QuestionsPage = () => {
-    const [quizList, setQuizList] = useState([]);
+    const [quizList, setQuizList] = useState();
     const router = useRouter();
     const [count, setCount] = useState(0)
     const [score, setScore] = useState(0)
