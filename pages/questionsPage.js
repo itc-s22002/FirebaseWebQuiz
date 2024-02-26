@@ -173,7 +173,7 @@ const QuestionsPage = () => {
                 <>
                     {/*<h1 className={styles.title}>{quizList[count].title}</h1>*/}
                     <p className="mb-3 text-center"
-                       style={{margin: 10, fontSize: 22}}>問{count + 1}:{quizList[count].question}</p>
+                       style={{margin: 10, fontSize: 24}}>問{count + 1}:{quizList[count].question}</p>
                     {/*<h2 className={styles.questions}>問{count + 1}:{quizList[count].question}</h2>*/}
                     <h2 className="text-end">score:{score}点</h2>
                     <div className="w-100 btn-group" role="group" aria-label="Basic outlined example">
